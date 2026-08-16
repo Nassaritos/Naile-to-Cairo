@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cairo + Remote Opportunities — Turkish / English Profile</title>
+<style>
+  :root{
+    --bg:#0e1116; --panel:#161b23; --panel2:#1c2230; --line:#252d3a;
+    --ink:#e8ecf3; --mute:#98a3b5; --dim:#6c7891;
+    --a:#e11d48;   /* turkish red */
+    --b:#38bdf8;   /* remote */
+    --c:#34d399;   /* cairo */
+    --d:#fbbf24;   /* freelance */
+    --e:#a78bfa;
+  }
+  @media (prefers-color-scheme: light){
+    :root{ --bg:#f6f7f9; --panel:#fff; --panel2:#f0f2f6; --line:#e2e6ee;
+           --ink:#111827; --mute:#55606f; --dim:#7c8697; }
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+       font:15px/1.6 ui-sans-serif,-apple-system,"Segoe UI",Inter,Roboto,sans-serif;
+       -webkit-font-smoothing:antialiased}
+  .wrap{max-width:1180px;margin:0 auto;padding:32px 20px 80px}
+
+  header.top{border-bottom:1px solid var(--line);padding-bottom:26px;margin-bottom:26px}
+  .kicker{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--a);font-weight:700}
+  h1{font-size:clamp(26px,4vw,40px);line-height:1.15;margin:10px 0 12px;letter-spacing:-.02em}
+  .sub{color:var(--mute);max-width:72ch;font-size:15.5px}
+  .meta{margin-top:14px;display:flex;flex-wrap:wrap;gap:8px}
+  .pill{font-size:12px;padding:4px 10px;border-radius:999px;background:var(--panel2);
+        border:1px solid var(--line);color:var(--mute)}
+
+  .grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px;margin:22px 0 8px}
+  .stat{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+  .stat b{display:block;font-size:24px;letter-spacing:-.02em}
+  .stat span{font-size:12.5px;color:var(--mute)}
+
+  .callout{background:linear-gradient(135deg,rgba(225,29,72,.10),rgba(167,139,250,.07));
+           border:1px solid var(--line);border-left:3px solid var(--a);
+           border-radius:10px;padding:16px 18px;margin:24px 0}
+  .callout h3{margin:0 0 8px;font-size:15px}
+  .callout p{margin:0 0 8px;color:var(--mute);font-size:14px}
+  .callout p:last-child{margin-bottom:0}
+
+  .filters{position:sticky;top:0;z-index:20;background:var(--bg);
+           padding:14px 0;margin:26px 0 4px;border-bottom:1px solid var(--line)}
+  .filters .lab{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin-bottom:8px}
+  .chips{display:flex;flex-wrap:wrap;gap:7px}
+  .chip{cursor:pointer;font-size:13px;padding:6px 13px;border-radius:999px;
+        background:var(--panel);border:1px solid var(--line);color:var(--mute);
+        transition:.14s;user-select:none}
+  .chip:hover{border-color:var(--dim);color:var(--ink)}
+  .chip.on{background:var(--ink);color:var(--bg);border-color:var(--ink);font-weight:600}
+
+  h2.sec{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--dim);
+         margin:38px 0 14px;font-weight:700}
+
+  .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:14px}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:13px;padding:17px 18px;
+        display:flex;flex-direction:column;gap:9px}
+  .card.hide{display:none}
+  .card .rowtop{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+  .card h3{margin:0;font-size:16px;line-height:1.3;letter-spacing:-.01em}
+  .co{font-size:13px;color:var(--mute);font-weight:600}
+  .tags{display:flex;flex-wrap:wrap;gap:5px}
+  .tag{font-size:10.5px;letter-spacing:.05em;text-transform:uppercase;font-weight:700;
+       padding:3px 8px;border-radius:5px;border:1px solid transparent}
+  .t-remote{color:var(--b);background:rgba(56,189,248,.11);border-color:rgba(56,189,248,.28)}
+  .t-cairo{color:var(--c);background:rgba(52,211,153,.11);border-color:rgba(52,211,153,.28)}
+  .t-free{color:var(--d);background:rgba(251,191,36,.11);border-color:rgba(251,191,36,.28)}
+  .t-track{color:var(--e);background:rgba(167,139,250,.11);border-color:rgba(167,139,250,.28)}
+  .card p{margin:0;font-size:13.6px;color:var(--mute)}
+  .card .fit{font-size:12.6px;color:var(--ink);background:var(--panel2);
+             border-radius:8px;padding:8px 10px;border:1px solid var(--line)}
+  .card .fit b{color:var(--a)}
+  .links{margin-top:auto;padding-top:4px;display:flex;flex-wrap:wrap;gap:8px}
+  a.btn{font-size:12.5px;text-decoration:none;color:var(--ink);border:1px solid var(--line);
+        background:var(--panel2);padding:6px 11px;border-radius:7px;font-weight:600;transition:.14s}
+  a.btn:hover{border-color:var(--a);color:var(--a)}
+  .status{font-size:11.5px;color:var(--dim);font-style:italic}
+
+  table{width:100%;border-collapse:collapse;font-size:13.5px;background:var(--panel);
+        border:1px solid var(--line);border-radius:12px;overflow:hidden}
+  th{text-align:left;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);
+     padding:11px 14px;background:var(--panel2);border-bottom:1px solid var(--line);font-weight:700}
+  td{padding:11px 14px;border-bottom:1px solid var(--line);color:var(--mute);vertical-align:top}
+  tr:last-child td{border-bottom:none}
+  td a{color:var(--b);text-decoration:none}
+  td a:hover{text-decoration:underline}
+  td strong{color:var(--ink)}
+
+  ol.plan{counter-reset:s;list-style:none;padding:0;margin:0;display:grid;gap:11px}
+  ol.plan li{counter-increment:s;background:var(--panel);border:1px solid var(--line);
+             border-radius:11px;padding:15px 17px 15px 54px;position:relative;font-size:14px;color:var(--mute)}
+  ol.plan li::before{content:counter(s);position:absolute;left:16px;top:14px;width:24px;height:24px;
+    border-radius:7px;background:var(--a);color:#fff;font-size:12.5px;font-weight:800;
+    display:grid;place-items:center}
+  ol.plan li b{color:var(--ink)}
+
+  footer{margin-top:52px;padding-top:20px;border-top:1px solid var(--line);
+         font-size:12.5px;color:var(--dim)}
+  .empty{display:none;padding:34px;text-align:center;color:var(--dim);
+         border:1px dashed var(--line);border-radius:12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="top">
+  <div class="kicker">Job-search brief · August 2026</div>
+  <h1>Turkish + English, based in Cairo</h1>
+  <p class="sub">A working map of where a Turkish national in Cairo — with English, no Arabic, and a mixed background in translation, sales, strategy, content, research, international relations and tutoring — actually gets hired. Split into what's live on Cairo employers' boards right now, and the remote/freelance tracks that don't depend on the Egyptian labour market at all.</p>
+  <div class="meta">
+    <span class="pill">Turkish (native) + English</span>
+    <span class="pill">No Arabic</span>
+    <span class="pill">Cairo-based</span>
+    <span class="pill">Remote + on-site</span>
+  </div>
+</header>
+
+<div class="grid3">
+  <div class="stat"><b>7</b><span>tracks matched to her experience</span></div>
+  <div class="stat"><b>~20</b><span>named employers &amp; platforms to hit</span></div>
+  <div class="stat"><b>Turkish</b><span>is the scarce skill here — not English</span></div>
+</div>
+
+<div class="callout">
+  <h3>Two things that shape everything below</h3>
+  <p><b>1. The permit reality.</b> A foreign national needs an employer-sponsored work permit in Egypt, and companies face quota rules limiting foreign staff relative to Egyptian staff. That means small local shops are slow to hire her, while large multinationals with Cairo service hubs (Capgemini, Agoda, Teleperformance, Nestlé) already run this process routinely — and freelance/remote work paid by clients outside Egypt sidesteps the question. <b>Prioritise big multinationals and remote work; treat small Egyptian SMEs as a bonus.</b></p>
+  <p><b>2. Her no-Arabic gap is smaller than it looks.</b> Cairo is one of the world's cheapest multilingual service hubs — global companies staff Turkish, French, German and Italian desks there precisely because the language is rare locally. In those roles Arabic is irrelevant and Turkish is the whole reason they'd hire her. That is the single highest-probability lane on this page.</p>
+</div>
+
+<div class="filters">
+  <div class="lab">Filter</div>
+  <div class="chips" id="chips">
+    <span class="chip on" data-f="all">Everything</span>
+    <span class="chip" data-f="cairo">Cairo-based</span>
+    <span class="chip" data-f="remote">Remote employed</span>
+    <span class="chip" data-f="free">Freelance / self-serve</span>
+    <span class="chip" data-f="translation">Translation</span>
+    <span class="chip" data-f="sales">Sales &amp; BD</span>
+    <span class="chip" data-f="content">Content &amp; copy</span>
+    <span class="chip" data-f="research">Research &amp; news</span>
+    <span class="chip" data-f="ir">International relations</span>
+    <span class="chip" data-f="tutoring">Tutoring</span>
+    <span class="chip" data-f="strategy">Strategy &amp; ops</span>
+  </div>
+</div>
+
+<h2 class="sec">A · Live now on Cairo boards</h2>
+<div class="cards" id="cards">
+
+  <div class="card" data-tags="cairo sales strategy">
+    <div class="rowtop"><h3>Turkish-desk roles ×3</h3></div>
+    <div class="co">Capgemini · Cairo</div>
+    <div class="tags"><span class="tag t-cairo">Cairo</span><span class="tag t-track">Sales / Ops</span></div>
+    <p>Three separate Turkish-speaker openings on their Cairo delivery centre: <strong>Customer Service (Turkish Speaker)</strong>, <strong>C2C Collections Process Expert (Turkish Speaker)</strong>, and <strong>Turkish Customer Experience Process Lead</strong>.</p>
+    <div class="fit"><b>Why it fits:</b> the Process Lead role is the one to chase — it's her sales + organisation/strategy background wrapped around the Turkish language, not a phone job. Permanent contract, multinational, permit process already in place.</div>
+    <div class="links">
+      <a class="btn" href="https://eg.indeed.com/q-turkish-%D9%88%D8%B8%D8%A7%D8%A6%D9%81.html" target="_blank">Indeed EG listing</a>
+      <a class="btn" href="https://www.capgemini.com/eg-en/jobs/" target="_blank">Capgemini Egypt careers</a>
+    </div>
+  </div>
+
+  <div class="card" data-tags="cairo sales">
+    <div class="rowtop"><h3>Account Manager, MEA — Turkish Speaker</h3></div>
+    <div class="co">Agoda · Cairo (hybrid)</div>
+    <div class="tags"><span class="tag t-cairo">Cairo</span><span class="tag t-track">Sales / BD</span></div>
+    <p>Agoda runs its whole MEA supply team out of Cairo and staffs it by language — they currently have Cairo-based Account Manager seats posted for Italian, French, German and Turkish speakers.</p>
+    <div class="fit"><b>Why it fits:</b> the closest thing on this page to a straight sales + partner-management job where Turkish is the qualifying credential. Fresh grads are explicitly welcome on these, so the bar is fit, not years.</div>
+    <div class="links">
+      <a class="btn" href="https://careersatagoda.com/job/8050071-account-manager-mea-cairo-based/" target="_blank">Agoda careers — MEA Cairo</a>
+      <a class="btn" href="https://careersatagoda.com/blog/agodas-supply-team-in-cairo/" target="_blank">About the Cairo team</a>
+    </div>
+  </div>
+
+  <div class="card" data-tags="cairo translation">
+    <div class="rowtop"><h3>Turkish Translator</h3></div>
+    <div class="co">Sokkar (industrial sewing machines) · Maadi, Cairo</div>
+    <div class="tags"><span class="tag t-cairo">Cairo</span><span class="tag t-track">Translation</span></div>
+    <p>Posted within the last day on Wuzzuf. Full-time on-site, Maadi. A machinery importer dealing with Turkish suppliers — the translation is commercial/technical, English↔Turkish, not Arabic-dependent in practice.</p>
+    <div class="fit"><b>Why it fits:</b> her translation-office experience, directly. Also the classic doorway into the Turkish-trade side of Egyptian industry, which is where the sales roles live.</div>
+    <div class="links">
+      <a class="btn" href="https://wuzzuf.net/jobs/p/Sp8lI1DgdYYL-Turkish-Translator-Cairo-Egypt" target="_blank">Apply on Wuzzuf</a>
+    </div>
+  </div>
+
+  <div class="card" data-tags="cairo content">
+    <div class="rowtop"><h3>Social Media Manager (Turkish Speaker)</h3></div>
+    <div class="co">Plan B Oncocare · Sheikh Zayed, Giza (hybrid)</div>
+    <div class="tags"><span class="tag t-cairo">Cairo</span><span class="tag t-track">Content</span></div>
+    <p>Hybrid, Turkish-language social and community work for a medical-travel business — a sector where Türkiye is the destination market, so Turkish copy is the product.</p>
+    <div class="fit"><b>Why it fits:</b> content writer + copywriter + a bit of sales instinct, in one role. Health tourism to Türkiye is a big Cairo-based industry and it runs on Turkish-language marketing.</div>
+    <div class="links">
+      <a class="btn" href="https://wuzzuf.net/a/Turkish-Jobs-in-Egypt" target="_blank">Wuzzuf — Turkish jobs</a>
+    </div>
+  </div>
+
+  <div class="card" data-tags="cairo remote content">
+    <div class="rowtop"><h3>Social Media &amp; Community Manager</h3></div>
+    <div class="co">iqibla · Cairo (remote option)</div>
+    <div class="tags"><span class="tag t-cairo">Cairo</span><span class="tag t-remote">Remote OK</span><span class="tag t-track">Content</span></div>
+    <p>Full- or part-time with a remote option, consumer brand selling into Muslim-majority markets including Türkiye.</p>
+    <div class="fit"><b>Why it fits:</b> part-time + remote makes it stackable with tutoring or freelance translation while she builds income.</div>
+    <div class="links">
+      <a class="btn" href="https://wuzzuf.net/a/Turkish-Jobs-in-Egypt" target="_blank">Wuzzuf — Turkish jobs</a>
+    </div>
+  </div>
+
+  <div class="card" data-tags="cairo sales">
+    <div class="rowtop"><h3>Turkish Customer Service Representative</h3></div>
+    <div class="co">Teleperformance (TP) Egypt</div>
+    <div class="tags"><span class="tag t-cairo">Cairo</span><span class="tag t-track">Sales / CS</span></div>
+    <p>Standing Turkish-language vacancy on TP's Egypt careers site. Requirements are deliberately low — degree or equivalent, good English, 20 wpm typing.</p>
+    <div class="fit"><b>Why it fits:</b> not the destination, but the fastest possible <b>yes</b> and the cleanest route to a sponsored permit + Egyptian payroll history. TP and Majorel/Concentrix promote language leads internally within a year.</div>
+    <div class="links">
+      <a class="btn" href="https://www.tp.com/en-us/job-opportunities/egypt/turkish-customer-service-representative/" target="_blank">TP Egypt — apply</a>
+      <a class="btn" href="https://jobs.concentrix.com/job-search/?country=Egypt" target="_blank">Concentrix Egypt</a>
+    </div>
+  </div>
+
+  <div class="card" data-tags="cairo sales">
+    <div class="rowtop"><h3>Customer Service / Tele-Sales (Turkish)</h3></div>
+    <div class="co">QMove · Nasr City &nbsp;/&nbsp; Maidaa · Nasr City</div>
+    <div class="tags"><span class="tag t-cairo">Cairo</span><span class="tag t-track">Sales</span></div>
+    <p>Two separate Nasr City employers running Turkish-or-Urdu speaking tele-sales desks (travel / Umrah services). Low barrier, on-site.</p>
+    <div class="fit"><b>Why it fits:</b> Turkish-language <em>selling</em> rather than support — closer to her sales experience, and small enough that she'd shape the desk.</div>
+    <div class="links">
+      <a class="btn" href="https://wuzzuf.net/a/Turkish-Jobs-in-Egypt" target="_blank">Wuzzuf</a>
+      <a class="btn" href="https://eg.indeed.com/q-turkish-%D9%88%D8%B8%D8%A7%D8%A6%D9%81.html" target="_blank">Indeed EG</a>
+    </div>
+  </div>
+
+  <div class="card" data-tags="cairo research content">
+    <div class="rowtop"><h3>Turkish Content Moderation &amp; QA</h3></div>
+    <div class="co">Majorel Egypt · Alexandria</div>
+    <div class="tags"><span class="tag t-cairo">Egypt</span><span class="tag t-track">Research</span></div>
+    <p>Recurring Turkish-language queues: <strong>Content Moderation</strong> and <strong>QA Specialist (Turkish &amp; English)</strong>. Alexandria-based, so only relevant if she'd relocate or they'd allow remote.</p>
+    <div class="fit"><b>Why it fits:</b> moderation/QA on Turkish-language content is adjacent to news research — it's reading and judging Turkish media all day. Listed here mostly as a signal: Egypt's BPO sector keeps standing Turkish queues open.</div>
+    <div class="links">
+      <a class="btn" href="https://wuzzuf.net/a/Turkish-Jobs-in-Egypt" target="_blank">Wuzzuf — Majorel</a>
+    </div>
+  </div>
+
+</div>
+
+<h2 class="sec">B · Remote &amp; freelance — no permit needed</h2>
+<div class="cards" id="cards2">
+
+  <div class="card" data-tags="remote free translation">
+    <div class="rowtop"><h3>Register as an EN→TR vendor with the big LSPs</h3></div>
+    <div class="co">RWS · Lionbridge · TransPerfect · Welocalize · Smartcat · Blend</div>
+    <div class="tags"><span class="tag t-remote">Remote</span><span class="tag t-free">Freelance</span><span class="tag t-track">Translation</span></div>
+    <p>The large language-service providers keep permanent open vendor registration for native Turkish translators, and they pay in USD/EUR regardless of where you sit. This is a background application, not a job hunt — fill the vendor forms once, then work arrives.</p>
+    <div class="fit"><b>Why it fits:</b> the single highest-leverage hour she can spend. Native Turkish is the entire qualification, her translation-office experience is the proof, and Cairo cost-of-living against EUR rates is a real arbitrage.</div>
+    <div class="links">
+      <a class="btn" href="https://www.smartcat.com/" target="_blank">Smartcat</a>
+      <a class="btn" href="https://www.proz.com/" target="_blank">ProZ</a>
+      <a class="btn" href="https://www.getblend.com/" target="_blank">Blend</a>
+    </div>
+  </div>
+
+  <div class="card" data-tags="remote free research translation">
+    <div class="rowtop"><h3>AI training &amp; evaluation in Turkish</h3></div>
+    <div class="co">Outlier · Mindrift · Appen · TELUS Digital · Toloka</div>
+    <div class="tags"><span class="tag t-remote">Remote</span><span class="tag t-free">Freelance</span><span class="tag t-track">Research</span></div>
+    <p>Every frontier-model lab is short of educated native speakers of mid-sized languages. Turkish work — writing prompts, rating model output, localising evaluation sets, fact-checking — pays materially better than translation piecework and is fully asynchronous.</p>
+    <div class="fit"><b>Why it fits:</b> this is where her odd mix actually becomes an advantage — they pay a premium for people who can write well <em>and</em> research <em>and</em> judge nuance in Turkish. No degree gatekeeping, no interview in most cases.</div>
+    <div class="links">
+      <a class="btn" href="https://www.opentrain.ai/jobs/" target="_blank">OpenTrain job board</a>
+      <a class="btn" href="https://alignlist.com/companies" target="_blank">AlignList — all platforms</a>
+    </div>
+  </div>
+
+  <div class="card" data-tags="remote free tutoring">
+    <div class="rowtop"><h3>Teach Turkish (not English) online</h3></div>
+    <div class="co">italki · Preply</div>
+    <div class="tags"><span class="tag t-remote">Remote</span><span class="tag t-free">Freelance</span><span class="tag t-track">Tutoring</span></div>
+    <p>She asked about English tutoring — but on these platforms she'd be a non-native English tutor competing with thousands, while as a native Turkish tutor she's in a thin, well-paid supply pool with growing demand.</p>
+    <div class="fit"><b>Straight advice:</b> lead the profile with <b>Turkish for foreigners</b>, and offer English only as a secondary subject to Turkish-speaking beginners — where being Turkish is a selling point rather than a handicap. She sets her own rate and hours.</div>
+    <div class="links">
+      <a class="btn" href="https://preply.com/en/online/turkish-tutoring-jobs" target="_blank">Preply — teach Turkish</a>
+      <a class="btn" href="https://www.italki.com/teacher/application" target="_blank">italki — apply</a>
+    </div>
+  </div>
+
+  <div class="card" data-tags="remote free content">
+    <div class="rowtop"><h3>Turkish copywriting &amp; content, remote</h3></div>
+    <div class="co">JustWatch · Upwork · Himalayas · DailyRemote</div>
+    <div class="tags"><span class="tag t-remote">Remote</span><span class="tag t-free">Freelance</span><span class="tag t-track">Content</span></div>
+    <p>There's a steady flow of "native Turkish copywriter, remote" contracts — e.g. JustWatch runs a freelance Turkish-speaking Movie &amp; TV copywriter brief. Global brands localising into Türkiye need writers, not translators.</p>
+    <div class="fit"><b>Why it fits:</b> directly her content-writer + copywriter experience, priced in hard currency. Positioning to use: <em>"Turkish copywriter who also translates"</em> — that pays roughly double <em>"translator who also writes"</em>.</div>
+    <div class="links">
+      <a class="btn" href="https://himalayas.app/jobs/countries/turkey/copywriting" target="_blank">Himalayas — TR copywriting</a>
+      <a class="btn" href="https://dailyremote.com/remote-writing-jobs-in-turkey" target="_blank">DailyRemote</a>
+      <a class="btn" href="https://www.remoterocketship.com/country/turkey/jobs/content-writer" target="_blank">RemoteRocketship</a>
+    </div>
+  </div>
+
+  <div class="card" data-tags="remote research ir">
+    <div class="rowtop"><h3>Turkish-language OSINT &amp; media monitoring</h3></div>
+    <div class="co">Risk consultancies · news wires · NGOs</div>
+    <div class="tags"><span class="tag t-remote">Remote</span><span class="tag t-track">Research / IR</span></div>
+    <p>"Language-enabled OSINT analyst" and Turkish media-monitoring roles come up continuously — political risk firms, humanitarian organisations, and newsrooms all need someone reading Turkish primary sources and writing English summaries. Many are remote or hybrid.</p>
+    <div class="fit"><b>Why it fits:</b> this is the exact intersection of her <b>research department for global news</b> and <b>international relations</b> lines, and it's the track with the highest ceiling of anything on this page. Worth building toward even if the first job is elsewhere.</div>
+    <div class="links">
+      <a class="btn" href="https://www.indeed.com/q-Open-Source-Intelligence-Research-Analyst-l-Remote-jobs.html" target="_blank">Indeed — OSINT remote</a>
+      <a class="btn" href="https://builtin.com/job/language-enabled-open-source-intelligence-osint-analyst/3537965" target="_blank">Example role</a>
+    </div>
+  </div>
+
+  <div class="card" data-tags="remote research ir">
+    <div class="rowtop"><h3>ICRC Cairo — Turkish-speaking Researcher</h3></div>
+    <div class="co">International Committee of the Red Cross · Maadi, Cairo</div>
+    <div class="tags"><span class="tag t-cairo">Cairo</span><span class="tag t-track">Research / IR</span></div>
+    <p>ICRC has previously run a <strong>Researcher – Turkish Speaker</strong> post out of its Maadi office: university degree, fluent Turkish + English, solid knowledge of Turkish political and humanitarian developments. That posting is old — but the function exists in Cairo.</p>
+    <div class="fit"><b>Action:</b> this is a "set an alert and send a speculative CV" target, not an apply-today one. It is the single best-matched job title found anywhere in Cairo for her research + IR profile.</div>
+    <div class="links">
+      <a class="btn" href="https://careers.icrc.org/" target="_blank">ICRC careers</a>
+      <a class="btn" href="https://www.unjobs.org/duty_stations/cairo" target="_blank">UN jobs — Cairo</a>
+    </div>
+  </div>
+
+</div>
+
+<h2 class="sec">C · Institutions to approach directly — no listing required</h2>
+<p class="sub" style="margin-bottom:14px">These never post on Wuzzuf. They hire Turkish nationals in Cairo through walk-in CVs, the community, and word of mouth. A short Turkish-language email with a CV attached is the entire application process.</p>
+<table>
+  <thead><tr><th>Organisation</th><th>What they'd hire her for</th><th>Contact route</th></tr></thead>
+  <tbody>
+    <tr>
+      <td><strong>Yunus Emre Institute</strong><br><span style="font-size:12px">Türk Kültür Merkezi</span></td>
+      <td>Turkish language instruction, cultural programming, coordination. Her tutoring + IR + organisation experience in one place, and the working language is Turkish.</td>
+      <td><a href="https://www.yee.org.tr/en" target="_blank">yee.org.tr</a> — email the Cairo/regional centre directly</td>
+    </tr>
+    <tr>
+      <td><strong>Turkish Embassy in Cairo</strong><br><span style="font-size:12px">+ Commercial Counsellor's office</span></td>
+      <td>Locally-engaged staff: commercial section support, translation, correspondence, event and delegation coordination. The trade office is the one to write to — it is chronically under-staffed and deals with Turkish exporters daily.</td>
+      <td><a href="https://cairo-emb.mfa.gov.tr/Mission/Contact" target="_blank">cairo-emb.mfa.gov.tr</a></td>
+    </tr>
+    <tr>
+      <td><strong>DEİK — Türkiye–Egypt Business Council</strong></td>
+      <td>Business-council coordination, member relations, delegation organisation. Exactly the "international relations representative" role she described, and it runs bilingual TR/EN.</td>
+      <td><a href="https://www.deik.org.tr/turkiye-africa-business-councils?pm=28&sm=diplomatik_misyon_temsilcilikleri" target="_blank">deik.org.tr</a></td>
+    </tr>
+    <tr>
+      <td><strong>Turkish manufacturers in Egypt</strong><br><span style="font-size:12px">Beko/Arçelik, textile &amp; garment groups</span></td>
+      <td>Export sales, supplier liaison, HQ-to-factory communication. Turkish investment into Egyptian industry is expanding fast — new garment and appliance plants in 10th of Ramadan and the industrial zones, all needing people who can talk to Istanbul and to the floor.</td>
+      <td><a href="https://enterpriseam.com/egypt/inside_industry/the-story-behind-the-turkish-investments-flooding-egyptian-industry/" target="_blank">Background on the wave</a> · approach HR directly</td>
+    </tr>
+    <tr>
+      <td><strong>Turkish community &amp; medical-tourism agencies</strong></td>
+      <td>Turkish-language sales, patient coordination, content. A dense, informal, fast-hiring Cairo network — and the one place her Turkish is worth more than any credential.</td>
+      <td>Facebook groups for Turks in Egypt; Turkish restaurant/business noticeboards in Nasr City &amp; Maadi</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 class="sec">D · Standing searches to check weekly</h2>
+<table>
+  <thead><tr><th>Board</th><th>Search</th><th>Why</th></tr></thead>
+  <tbody>
+    <tr><td><a href="https://wuzzuf.net/a/Turkish-Jobs-in-Egypt" target="_blank">Wuzzuf</a></td><td>"Turkish" — all Egypt</td><td>The main Egyptian board. Roughly 8–20 Turkish-language roles at any time; turnover is fast, so weekly beats monthly.</td></tr>
+    <tr><td><a href="https://eg.indeed.com/q-turkish-%D9%88%D8%B8%D8%A7%D8%A6%D9%81.html" target="_blank">Indeed Egypt</a></td><td>"Turkish"</td><td>Catches the multinationals (Capgemini, Agoda, Nestlé, Amazon) that don't always post to Wuzzuf.</td></tr>
+    <tr><td><a href="https://eg.jooble.org/jobs-turkish/Egypt" target="_blank">Jooble EG</a></td><td>"Turkish speakers"</td><td>Aggregator — picks up small employers that post nowhere else.</td></tr>
+    <tr><td><a href="https://www.linkedin.com/jobs/" target="_blank">LinkedIn</a></td><td>"Turkish speaker" + Cairo, and again with Remote</td><td>Set the alert to daily. Almost every BPO and shared-service Turkish desk role appears here first.</td></tr>
+    <tr><td><a href="https://jobdetails.nestle.com/" target="_blank">Nestlé careers</a></td><td>Alert on Cairo + Turkish</td><td>Their Cairo shared-service centre repeatedly opens Turkish-speaker procurement and finance roles. One just closed — the next is coming.</td></tr>
+    <tr><td><a href="https://www.bayt.com/en/egypt/jobs/turkish-jobs/" target="_blank">Bayt</a></td><td>Turkish jobs, Egypt</td><td>Weaker than Wuzzuf but occasionally unique Gulf-HQ postings with Cairo bases.</td></tr>
+  </tbody>
+</table>
+
+<h2 class="sec">E · What I'd actually do, in order</h2>
+<ol class="plan">
+  <li><b>Today — apply to the three that need no preparation.</b> The Maadi Turkish Translator post (a day old, so she's early), the TP Egypt Turkish CSR standing vacancy, and Agoda's Cairo MEA account manager seat. Different tiers on purpose: one is a real fit, one is a fast safety net, one is the good outcome.</li>
+  <li><b>This week — split the CV in two.</b> One version leads with <em>translation &amp; localisation</em>, one leads with <em>Turkish-market sales &amp; account management</em>. A single CV listing seven different careers reads as unfocused to every recruiter on this page; two focused ones read as two strong candidates.</li>
+  <li><b>This week — set up the income floor that doesn't need anyone's permission.</b> Register on Smartcat and ProZ as an EN→TR translator, sign up to one AI-training platform, and put up an italki profile teaching Turkish. Three or four hours of setup, and it earns in foreign currency while the employed search runs.</li>
+  <li><b>Next week — write the four institutional emails.</b> Yunus Emre, the Embassy's commercial counsellor, DEİK's Türkiye–Egypt council, and two Turkish manufacturers. In Turkish, short, CV attached, naming what she'd do for them. These have no application form, so almost nobody sends them — which is exactly why they work.</li>
+  <li><b>Ongoing — build toward the Turkish-research lane.</b> The OSINT / media-monitoring / ICRC-researcher track is the highest-ceiling work here and the best match for her news-research and international-relations experience. It usually wants a visible track record, so: a public writing sample or two analysing Turkish politics in English, and a LinkedIn that says <em>Turkey analyst</em> rather than <em>generalist</em>.</li>
+  <li><b>Check before signing anything — the permit.</b> Confirm which side sponsors the work permit and how long it takes, in writing, before accepting an offer. Multinationals handle it as routine; small firms sometimes promise and stall. Freelance income from clients outside Egypt is a different question and worth checking separately with a local accountant.</li>
+</ol>
+
+<div class="empty" id="empty">Nothing matches that filter — try another.</div>
+
+<footer>
+  Compiled 16 August 2026 from Wuzzuf, Indeed Egypt, Bayt, Jooble, Agoda, Teleperformance and Capgemini career sites, plus DEİK, the Turkish Embassy in Cairo and Yunus Emre Institute.<br>
+  Job listings move fast — verify each posting is still open before investing time. Roles marked as previously-posted (ICRC, Nestlé) are alert targets, not live applications. Nothing here is legal or immigration advice; confirm permit and tax questions with a qualified adviser in Egypt.
+</footer>
+
+</div>
+
+<script>
+(function(){
+  var chips=document.querySelectorAll('#chips .chip');
+  var cards=document.querySelectorAll('.card');
+  var empty=document.getElementById('empty');
+  chips.forEach(function(c){
+    c.addEventListener('click',function(){
+      chips.forEach(function(x){x.classList.remove('on')});
+      c.classList.add('on');
+      var f=c.dataset.f, shown=0;
+      cards.forEach(function(card){
+        var ok = (f==='all') || (card.dataset.tags||'').split(' ').indexOf(f)>-1;
+        card.classList.toggle('hide',!ok);
+        if(ok) shown++;
+      });
+      empty.style.display = shown ? 'none' : 'block';
+      document.querySelectorAll('.cards').forEach(function(g){
+        var vis=g.querySelectorAll('.card:not(.hide)').length;
+        g.style.display = vis ? 'grid' : 'none';
+        var h=g.previousElementSibling;
+        while(h && !h.classList.contains('sec')) h=h.previousElementSibling;
+      });
+    });
+  });
+})();
+</script>
+</body>
+</html>
