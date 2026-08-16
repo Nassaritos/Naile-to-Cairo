@@ -2,419 +2,538 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Cairo + Remote Opportunities — Turkish / English Profile</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#080b12">
+<meta name="description" content="Job application tracker — Cairo and remote opportunities in English and Turkish.">
+<title>Opportunity Tracker — Cairo · English &amp; Turkish</title>
 <style>
-  :root{
-    --bg:#0e1116; --panel:#161b23; --panel2:#1c2230; --line:#252d3a;
-    --ink:#e8ecf3; --mute:#98a3b5; --dim:#6c7891;
-    --a:#e11d48;   /* turkish red */
-    --b:#38bdf8;   /* remote */
-    --c:#34d399;   /* cairo */
-    --d:#fbbf24;   /* freelance */
-    --e:#a78bfa;
-  }
-  @media (prefers-color-scheme: light){
-    :root{ --bg:#f6f7f9; --panel:#fff; --panel2:#f0f2f6; --line:#e2e6ee;
-           --ink:#111827; --mute:#55606f; --dim:#7c8697; }
-  }
-  *{box-sizing:border-box}
-  body{margin:0;background:var(--bg);color:var(--ink);
-       font:15px/1.6 ui-sans-serif,-apple-system,"Segoe UI",Inter,Roboto,sans-serif;
-       -webkit-font-smoothing:antialiased}
-  .wrap{max-width:1180px;margin:0 auto;padding:32px 20px 80px}
+:root{
+  --bg:#080b12; --bg2:#0d111b;
+  --panel:rgba(255,255,255,.032); --panelSolid:#111725;
+  --line:rgba(255,255,255,.085); --line2:rgba(255,255,255,.16);
+  --ink:#eef2f9; --mute:#94a1b8; --dim:#64718a;
+  --i1:#6366f1; --i2:#22d3ee; --i3:#a855f7;
+  --todo:#7c8aa5; --saved:#a855f7; --applied:#3b82f6;
+  --interview:#f59e0b; --offer:#10b981; --closed:#ef4444;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 28px -12px rgba(0,0,0,.7);
+  --pad:22px;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{
+  background:var(--bg); color:var(--ink);
+  font:15px/1.6 ui-sans-serif,-apple-system,"Segoe UI",Inter,Roboto,sans-serif;
+  -webkit-font-smoothing:antialiased; min-height:100vh; overflow-x:hidden;
+  background-image:
+    radial-gradient(900px 500px at 12% -8%, rgba(99,102,241,.16), transparent 60%),
+    radial-gradient(800px 450px at 92% 2%, rgba(34,211,238,.10), transparent 60%),
+    radial-gradient(700px 500px at 50% 100%, rgba(168,85,247,.07), transparent 60%);
+  background-attachment:fixed;
+}
+.wrap{max-width:1340px;margin:0 auto;padding:30px var(--pad) 60px}
 
-  header.top{border-bottom:1px solid var(--line);padding-bottom:26px;margin-bottom:26px}
-  .kicker{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--a);font-weight:700}
-  h1{font-size:clamp(26px,4vw,40px);line-height:1.15;margin:10px 0 12px;letter-spacing:-.02em}
-  .sub{color:var(--mute);max-width:72ch;font-size:15.5px}
-  .meta{margin-top:14px;display:flex;flex-wrap:wrap;gap:8px}
-  .pill{font-size:12px;padding:4px 10px;border-radius:999px;background:var(--panel2);
-        border:1px solid var(--line);color:var(--mute)}
+/* ── header ── */
+.hero{display:flex;justify-content:space-between;align-items:flex-end;gap:26px;flex-wrap:wrap;
+      padding-bottom:22px;border-bottom:1px solid var(--line)}
+.heroL{flex:1 1 420px;min-width:0}
+.kick{font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;font-weight:800;
+      background:linear-gradient(90deg,var(--i1),var(--i2));-webkit-background-clip:text;
+      background-clip:text;color:transparent}
+h1{font-size:clamp(25px,5.2vw,43px);line-height:1.08;letter-spacing:-.035em;margin:9px 0 10px;font-weight:800}
+h1 em{font-style:normal;background:linear-gradient(100deg,var(--i2),var(--i1) 55%,var(--i3));
+      -webkit-background-clip:text;background-clip:text;color:transparent}
+.lede{color:var(--mute);max-width:62ch;font-size:14.4px}
 
-  .grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px;margin:22px 0 8px}
-  .stat{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px 18px}
-  .stat b{display:block;font-size:24px;letter-spacing:-.02em}
-  .stat span{font-size:12.5px;color:var(--mute)}
+/* ── progress ring ── */
+.ringbox{display:flex;align-items:center;gap:18px;background:var(--panel);border:1px solid var(--line);
+         border-radius:18px;padding:15px 20px;backdrop-filter:blur(14px);box-shadow:var(--shadow);
+         flex:0 1 auto}
+.ring{position:relative;width:84px;height:84px;flex:none}
+.ring svg{transform:rotate(-90deg);display:block}
+.ring .val{position:absolute;inset:0;display:grid;place-items:center;font-size:21px;font-weight:800;
+           letter-spacing:-.03em;line-height:1}
+.ring .val small{display:block;font-size:8.5px;letter-spacing:.12em;color:var(--dim);font-weight:700;margin-top:3px}
+.ringstats{display:grid;gap:5px;min-width:130px;flex:1 1 auto}
+.rs{display:flex;justify-content:space-between;gap:14px;font-size:12.4px}
+.rs span{color:var(--mute)} .rs b{font-variant-numeric:tabular-nums;font-weight:700}
+.saved-tag{grid-column:1/-1;font-size:10.5px;color:var(--dim);display:flex;align-items:center;gap:5px;
+  margin-top:3px;padding-top:6px;border-top:1px solid var(--line)}
+.dot{width:6px;height:6px;border-radius:50%;background:var(--offer);flex:none;
+  box-shadow:0 0 0 3px rgba(16,185,129,.16)}
 
-  .callout{background:linear-gradient(135deg,rgba(225,29,72,.10),rgba(167,139,250,.07));
-           border:1px solid var(--line);border-left:3px solid var(--a);
-           border-radius:10px;padding:16px 18px;margin:24px 0}
-  .callout h3{margin:0 0 8px;font-size:15px}
-  .callout p{margin:0 0 8px;color:var(--mute);font-size:14px}
-  .callout p:last-child{margin-bottom:0}
+/* ── strategy note ── */
+.note-strat{background:linear-gradient(135deg,rgba(99,102,241,.09),rgba(34,211,238,.05));
+  border:1px solid var(--line);border-left:3px solid var(--i1);border-radius:14px;
+  padding:16px 19px;margin:22px 0}
+.note-strat h3{font-size:14.4px;margin-bottom:8px;font-weight:700}
+.note-strat p{color:var(--mute);font-size:13.4px;margin-bottom:8px}
+.note-strat p:last-child{margin-bottom:0}
+.note-strat b{color:var(--ink)}
 
-  .filters{position:sticky;top:0;z-index:20;background:var(--bg);
-           padding:14px 0;margin:26px 0 4px;border-bottom:1px solid var(--line)}
-  .filters .lab{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin-bottom:8px}
-  .chips{display:flex;flex-wrap:wrap;gap:7px}
-  .chip{cursor:pointer;font-size:13px;padding:6px 13px;border-radius:999px;
-        background:var(--panel);border:1px solid var(--line);color:var(--mute);
-        transition:.14s;user-select:none}
-  .chip:hover{border-color:var(--dim);color:var(--ink)}
-  .chip.on{background:var(--ink);color:var(--bg);border-color:var(--ink);font-weight:600}
+/* ── toolbar ── */
+.toolbar{position:sticky;top:0;z-index:40;margin:20px 0 0;padding:13px 0 12px;
+         background:linear-gradient(180deg,var(--bg) 74%,rgba(8,11,18,.86) 96%,transparent);
+         backdrop-filter:blur(10px)}
+.trow{display:flex;gap:9px;flex-wrap:wrap;align-items:center}
+.search{flex:1 1 210px;min-width:0;position:relative}
+.search input{width:100%;background:var(--panelSolid);border:1px solid var(--line);color:var(--ink);
+  border-radius:11px;padding:10px 13px 10px 34px;font-size:16px;font-family:inherit;outline:none;transition:.16s}
+.search input:focus{border-color:var(--i1);box-shadow:0 0 0 3px rgba(99,102,241,.16)}
+.search svg{position:absolute;left:11px;top:50%;transform:translateY(-50%);opacity:.42;pointer-events:none}
+select.sel{background:var(--panelSolid);border:1px solid var(--line);color:var(--ink);border-radius:11px;
+  padding:10px 11px;font-size:13px;font-family:inherit;outline:none;cursor:pointer;flex:0 0 auto}
+.seg{display:flex;background:var(--panelSolid);border:1px solid var(--line);border-radius:11px;padding:3px;
+  gap:2px;flex:0 0 auto}
+.seg button{background:none;border:none;color:var(--mute);font:600 12.5px/1 inherit;padding:8px 15px;
+  border-radius:8px;cursor:pointer;transition:.16s}
+.seg button.on{background:linear-gradient(135deg,var(--i1),var(--i3));color:#fff}
+.chipscroll{margin-top:10px;overflow-x:auto;overflow-y:hidden;scrollbar-width:none;-ms-overflow-style:none;
+  margin-inline:calc(var(--pad) * -1);padding-inline:var(--pad)}
+.chipscroll::-webkit-scrollbar{display:none}
+.chips{display:flex;gap:6px;flex-wrap:wrap;min-width:min-content}
+.chip{cursor:pointer;font-size:12.2px;padding:6px 12px;border-radius:999px;background:var(--panel);
+  border:1px solid var(--line);color:var(--mute);transition:.15s;user-select:none;font-weight:500;
+  white-space:nowrap}
+.chip:hover{border-color:var(--line2);color:var(--ink)}
+.chip.on{background:var(--ink);color:var(--bg);border-color:var(--ink);font-weight:700}
+.chip .n{opacity:.5;font-size:10.5px;margin-left:4px;font-variant-numeric:tabular-nums}
+.countline{margin:12px 0 2px;font-size:12.2px;color:var(--dim);display:flex;justify-content:space-between;
+  align-items:center;gap:12px;flex-wrap:wrap}
+.btn-ghost{background:none;border:1px solid var(--line);color:var(--mute);border-radius:8px;
+  padding:6px 11px;font:600 11.8px/1.3 inherit;cursor:pointer;transition:.15s;white-space:nowrap}
+.btn-ghost:hover{border-color:var(--i1);color:var(--i2)}
+.btn-ghost.danger:hover{border-color:var(--closed);color:#f87171}
 
-  h2.sec{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--dim);
-         margin:38px 0 14px;font-weight:700}
+/* ── section head ── */
+h2.sec{font-size:11px;letter-spacing:.17em;text-transform:uppercase;color:var(--dim);
+  margin:32px 0 4px;font-weight:800;display:flex;align-items:center;gap:10px}
+h2.sec::after{content:"";flex:1;height:1px;background:var(--line);min-width:20px}
+p.secsub{color:var(--mute);font-size:13.2px;margin:0 0 15px;max-width:76ch}
 
-  .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:14px}
-  .card{background:var(--panel);border:1px solid var(--line);border-radius:13px;padding:17px 18px;
-        display:flex;flex-direction:column;gap:9px}
-  .card.hide{display:none}
-  .card .rowtop{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
-  .card h3{margin:0;font-size:16px;line-height:1.3;letter-spacing:-.01em}
-  .co{font-size:13px;color:var(--mute);font-weight:600}
-  .tags{display:flex;flex-wrap:wrap;gap:5px}
-  .tag{font-size:10.5px;letter-spacing:.05em;text-transform:uppercase;font-weight:700;
-       padding:3px 8px;border-radius:5px;border:1px solid transparent}
-  .t-remote{color:var(--b);background:rgba(56,189,248,.11);border-color:rgba(56,189,248,.28)}
-  .t-cairo{color:var(--c);background:rgba(52,211,153,.11);border-color:rgba(52,211,153,.28)}
-  .t-free{color:var(--d);background:rgba(251,191,36,.11);border-color:rgba(251,191,36,.28)}
-  .t-track{color:var(--e);background:rgba(167,139,250,.11);border-color:rgba(167,139,250,.28)}
-  .card p{margin:0;font-size:13.6px;color:var(--mute)}
-  .card .fit{font-size:12.6px;color:var(--ink);background:var(--panel2);
-             border-radius:8px;padding:8px 10px;border:1px solid var(--line)}
-  .card .fit b{color:var(--a)}
-  .links{margin-top:auto;padding-top:4px;display:flex;flex-wrap:wrap;gap:8px}
-  a.btn{font-size:12.5px;text-decoration:none;color:var(--ink);border:1px solid var(--line);
-        background:var(--panel2);padding:6px 11px;border-radius:7px;font-weight:600;transition:.14s}
-  a.btn:hover{border-color:var(--a);color:var(--a)}
-  .status{font-size:11.5px;color:var(--dim);font-style:italic}
+/* ── cards ── */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:14px;align-items:start}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:16px 17px 14px;
+  display:flex;flex-direction:column;gap:10px;backdrop-filter:blur(12px);position:relative;
+  transition:transform .18s cubic-bezier(.2,.8,.3,1),border-color .18s,box-shadow .18s;overflow:hidden}
+.card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--todo);
+  opacity:.85;transition:.2s}
+.card[data-st=saved]::before{background:var(--saved)}
+.card[data-st=applied]::before{background:var(--applied)}
+.card[data-st=interview]::before{background:var(--interview)}
+.card[data-st=offer]::before{background:var(--offer)}
+.card[data-st=closed]::before{background:var(--closed)}
+.card[data-st=closed]{opacity:.5}
+.card:hover{border-color:var(--line2);box-shadow:var(--shadow)}
+@media(hover:hover){.card:hover{transform:translateY(-3px)}}
+.card.hide{display:none}
+.cardtop{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
+.card h3{font-size:15.2px;line-height:1.32;letter-spacing:-.012em;font-weight:700;overflow-wrap:anywhere}
+.org{font-size:12.5px;color:var(--mute);font-weight:600;margin-top:2px;overflow-wrap:anywhere}
+.prio{flex:none;font-size:9.5px;font-weight:800;letter-spacing:.09em;padding:3px 7px;border-radius:5px;
+  text-transform:uppercase;white-space:nowrap}
+.p1{color:#fff;background:linear-gradient(135deg,var(--i1),var(--i3))}
+.p2{color:var(--i2);background:rgba(34,211,238,.11);border:1px solid rgba(34,211,238,.25)}
+.p3{color:var(--dim);background:rgba(255,255,255,.045);border:1px solid var(--line)}
+.tags{display:flex;flex-wrap:wrap;gap:5px}
+.tag{font-size:9.8px;letter-spacing:.06em;text-transform:uppercase;font-weight:800;padding:3px 7px;
+  border-radius:5px;border:1px solid transparent;white-space:nowrap}
+.t-en{color:#60a5fa;background:rgba(96,165,250,.11);border-color:rgba(96,165,250,.26)}
+.t-tr{color:#f87171;background:rgba(248,113,113,.11);border-color:rgba(248,113,113,.26)}
+.t-both{color:#c084fc;background:rgba(192,132,252,.12);border-color:rgba(192,132,252,.28)}
+.t-mode{color:#34d399;background:rgba(52,211,153,.1);border-color:rgba(52,211,153,.24)}
+.t-track{color:var(--mute);background:rgba(255,255,255,.05);border-color:var(--line)}
+.why{font-size:12.8px;color:var(--mute);line-height:1.55}
+.dates{display:flex;gap:10px;flex-wrap:wrap;font-size:11.3px;color:var(--dim);
+  font-variant-numeric:tabular-nums;align-items:center}
+.fresh,.urg{font-weight:800;font-size:9.6px;letter-spacing:.07em;text-transform:uppercase;
+  padding:2.5px 6px;border-radius:4px;white-space:nowrap}
+.fresh{background:rgba(16,185,129,.14);color:#34d399;border:1px solid rgba(16,185,129,.3)}
+.urg{background:rgba(239,68,68,.13);color:#f87171;border:1px solid rgba(239,68,68,.3)}
+.roll-tag{background:rgba(99,102,241,.15);color:#818cf8;border:1px solid rgba(99,102,241,.32)}
+.actions{margin-top:auto;padding-top:10px;border-top:1px solid var(--line);display:flex;gap:8px;
+  align-items:center;flex-wrap:wrap}
+a.apply{flex:1 1 106px;text-align:center;text-decoration:none;font:800 12.5px/1 inherit;
+  color:#fff;background:linear-gradient(135deg,var(--i1),var(--i3));padding:11px 12px;border-radius:9px;
+  transition:.16s;letter-spacing:.01em;box-shadow:0 3px 12px -4px rgba(99,102,241,.7)}
+a.apply:hover{filter:brightness(1.14);transform:translateY(-1px)}
+select.st{background:var(--panelSolid);border:1px solid var(--line);color:var(--ink);border-radius:9px;
+  padding:9px 8px;font:600 12px/1 inherit;cursor:pointer;outline:none;transition:.16s;
+  flex:0 1 auto;min-width:0;max-width:150px}
+select.st:focus{border-color:var(--i1)}
+.noteBtn{background:none;border:1px solid var(--line);color:var(--dim);border-radius:9px;
+  width:34px;height:34px;cursor:pointer;font-size:13px;transition:.16s;flex:none}
+.noteBtn:hover,.noteBtn.has{border-color:var(--i2);color:var(--i2)}
+textarea.note{display:none;width:100%;background:var(--panelSolid);border:1px solid var(--line);
+  color:var(--ink);border-radius:9px;padding:9px 10px;font:13px/1.5 inherit;resize:vertical;
+  min-height:58px;outline:none;margin-top:2px}
+textarea.note:focus{border-color:var(--i1)}
+textarea.note.show{display:block}
 
-  table{width:100%;border-collapse:collapse;font-size:13.5px;background:var(--panel);
-        border:1px solid var(--line);border-radius:12px;overflow:hidden}
-  th{text-align:left;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);
-     padding:11px 14px;background:var(--panel2);border-bottom:1px solid var(--line);font-weight:700}
-  td{padding:11px 14px;border-bottom:1px solid var(--line);color:var(--mute);vertical-align:top}
-  tr:last-child td{border-bottom:none}
-  td a{color:var(--b);text-decoration:none}
-  td a:hover{text-decoration:underline}
-  td strong{color:var(--ink)}
+/* ── board view ── */
+.boardscroll{overflow-x:auto;padding-bottom:12px;margin-inline:calc(var(--pad) * -1);
+  padding-inline:var(--pad);scroll-snap-type:x proximity}
+.board{display:grid;grid-template-columns:repeat(6,minmax(230px,1fr));gap:12px;min-width:min-content}
+.col{background:rgba(255,255,255,.02);border:1px solid var(--line);border-radius:14px;padding:11px;
+  min-height:140px;display:flex;flex-direction:column;gap:9px;scroll-snap-align:start}
+.colh{display:flex;justify-content:space-between;align-items:center;font-size:10.5px;font-weight:800;
+  letter-spacing:.11em;text-transform:uppercase;padding:2px 3px 8px;border-bottom:1px solid var(--line)}
+.colh b{font-variant-numeric:tabular-nums;opacity:.55}
+.mini{background:var(--panel);border:1px solid var(--line);border-radius:11px;padding:11px 12px;transition:.16s}
+.mini:hover{border-color:var(--line2)}
+.mini h4{font-size:12.8px;line-height:1.35;font-weight:700;letter-spacing:-.01em;overflow-wrap:anywhere}
+.mini .o{font-size:11.2px;color:var(--dim);margin-top:3px;overflow-wrap:anywhere}
+.mini .mrow{display:flex;gap:6px;margin-top:9px;align-items:center}
+.mini a{flex:1;text-align:center;text-decoration:none;font:800 10.8px/1 inherit;color:var(--i2);
+  border:1px solid rgba(34,211,238,.3);background:rgba(34,211,238,.07);padding:7px 4px;border-radius:7px}
+.mini a:hover{background:rgba(34,211,238,.15)}
+.mini select{background:var(--panelSolid);border:1px solid var(--line);color:var(--mute);
+  border-radius:7px;padding:6px 4px;font:600 10.5px/1 inherit;cursor:pointer;outline:none;
+  max-width:96px;flex:0 1 auto}
+.hint{font-size:11px;color:var(--dim);margin:-4px 0 12px;display:none}
 
-  ol.plan{counter-reset:s;list-style:none;padding:0;margin:0;display:grid;gap:11px}
-  ol.plan li{counter-increment:s;background:var(--panel);border:1px solid var(--line);
-             border-radius:11px;padding:15px 17px 15px 54px;position:relative;font-size:14px;color:var(--mute)}
-  ol.plan li::before{content:counter(s);position:absolute;left:16px;top:14px;width:24px;height:24px;
-    border-radius:7px;background:var(--a);color:#fff;font-size:12.5px;font-weight:800;
-    display:grid;place-items:center}
-  ol.plan li b{color:var(--ink)}
+.empty{display:none;padding:44px 20px;text-align:center;color:var(--dim);border:1px dashed var(--line);
+  border-radius:16px;margin-top:16px}
+footer{margin-top:46px;padding-top:20px;border-top:1px solid var(--line);font-size:12.1px;color:var(--dim);
+  line-height:1.7}
+footer b{color:var(--mute)}
 
-  footer{margin-top:52px;padding-top:20px;border-top:1px solid var(--line);
-         font-size:12.5px;color:var(--dim)}
-  .empty{display:none;padding:34px;text-align:center;color:var(--dim);
-         border:1px dashed var(--line);border-radius:12px}
+/* ── responsive ── */
+@media(max-width:1080px){
+  .ringbox{flex:1 1 100%}
+  .ringstats{min-width:0}
+}
+@media(max-width:820px){
+  :root{--pad:16px}
+  .wrap{padding-top:22px}
+  .hero{gap:18px;padding-bottom:18px}
+  .lede{font-size:13.8px}
+  .grid{grid-template-columns:1fr;gap:12px}
+  .board{grid-template-columns:repeat(6,minmax(215px,1fr))}
+  .hint{display:block}
+  .seg{flex:1 1 100%;order:3}
+  .seg button{flex:1}
+  select.sel{flex:1 1 100%;order:2}
+  .search{order:1;flex:1 1 100%}
+  .chips{flex-wrap:nowrap}
+}
+@media(max-width:520px){
+  h1{margin:7px 0 8px}
+  .ringbox{padding:13px 15px;gap:14px}
+  .ring{width:72px;height:72px}
+  .ring svg{width:72px;height:72px}
+  .ring .val{font-size:18px}
+  .note-strat{padding:14px 15px;border-radius:12px}
+  .note-strat p{font-size:12.9px}
+  .card{padding:14px 15px 13px;border-radius:14px}
+  .card h3{font-size:14.6px}
+  .why{font-size:12.4px}
+  a.apply{flex:1 1 100%}
+  select.st{flex:1 1 auto;max-width:none}
+  .countline{font-size:11.6px}
+  footer{font-size:11.6px}
+}
+@media(prefers-reduced-motion:reduce){
+  *{transition:none!important;animation:none!important;scroll-behavior:auto!important}
+}
 </style>
 </head>
 <body>
 <div class="wrap">
 
-<header class="top">
-  <div class="kicker">Job-search brief · August 2026</div>
-  <h1>Turkish + English, based in Cairo</h1>
-  <p class="sub">A working map of where a Turkish national in Cairo — with English, no Arabic, and a mixed background in translation, sales, strategy, content, research, international relations and tutoring — actually gets hired. Split into what's live on Cairo employers' boards right now, and the remote/freelance tracks that don't depend on the Egyptian labour market at all.</p>
-  <div class="meta">
-    <span class="pill">Turkish (native) + English</span>
-    <span class="pill">No Arabic</span>
-    <span class="pill">Cairo-based</span>
-    <span class="pill">Remote + on-site</span>
+<div class="hero">
+  <div class="heroL">
+    <div class="kick">Application tracker · live listings · Aug 2026</div>
+    <h1>Cairo &amp; remote — <em>English and Turkish</em></h1>
+    <p class="lede">Every opportunity below was posted within the last two months and links straight to its own application page. Set a status on each one and add notes — everything saves automatically in this browser.</p>
   </div>
-</header>
-
-<div class="grid3">
-  <div class="stat"><b>7</b><span>tracks matched to her experience</span></div>
-  <div class="stat"><b>~20</b><span>named employers &amp; platforms to hit</span></div>
-  <div class="stat"><b>Turkish</b><span>is the scarce skill here — not English</span></div>
-</div>
-
-<div class="callout">
-  <h3>Two things that shape everything below</h3>
-  <p><b>1. The permit reality.</b> A foreign national needs an employer-sponsored work permit in Egypt, and companies face quota rules limiting foreign staff relative to Egyptian staff. That means small local shops are slow to hire her, while large multinationals with Cairo service hubs (Capgemini, Agoda, Teleperformance, Nestlé) already run this process routinely — and freelance/remote work paid by clients outside Egypt sidesteps the question. <b>Prioritise big multinationals and remote work; treat small Egyptian SMEs as a bonus.</b></p>
-  <p><b>2. Her no-Arabic gap is smaller than it looks.</b> Cairo is one of the world's cheapest multilingual service hubs — global companies staff Turkish, French, German and Italian desks there precisely because the language is rare locally. In those roles Arabic is irrelevant and Turkish is the whole reason they'd hire her. That is the single highest-probability lane on this page.</p>
-</div>
-
-<div class="filters">
-  <div class="lab">Filter</div>
-  <div class="chips" id="chips">
-    <span class="chip on" data-f="all">Everything</span>
-    <span class="chip" data-f="cairo">Cairo-based</span>
-    <span class="chip" data-f="remote">Remote employed</span>
-    <span class="chip" data-f="free">Freelance / self-serve</span>
-    <span class="chip" data-f="translation">Translation</span>
-    <span class="chip" data-f="sales">Sales &amp; BD</span>
-    <span class="chip" data-f="content">Content &amp; copy</span>
-    <span class="chip" data-f="research">Research &amp; news</span>
-    <span class="chip" data-f="ir">International relations</span>
-    <span class="chip" data-f="tutoring">Tutoring</span>
-    <span class="chip" data-f="strategy">Strategy &amp; ops</span>
+  <div class="ringbox">
+    <div class="ring">
+      <svg width="84" height="84" viewBox="0 0 88 88">
+        <circle cx="44" cy="44" r="37" fill="none" stroke="rgba(255,255,255,.08)" stroke-width="8"/>
+        <circle id="arc" cx="44" cy="44" r="37" fill="none" stroke="url(#g)" stroke-width="8"
+                stroke-linecap="round" stroke-dasharray="232.5" stroke-dashoffset="232.5"
+                style="transition:stroke-dashoffset .6s cubic-bezier(.2,.8,.3,1)"/>
+        <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#6366f1"/><stop offset="100%" stop-color="#22d3ee"/>
+        </linearGradient></defs>
+      </svg>
+      <div class="val"><span><span id="pct">0%</span><small>ACTIONED</small></span></div>
+    </div>
+    <div class="ringstats" id="rstats"></div>
   </div>
 </div>
 
-<h2 class="sec">A · Live now on Cairo boards</h2>
-<div class="cards" id="cards">
-
-  <div class="card" data-tags="cairo sales strategy">
-    <div class="rowtop"><h3>Turkish-desk roles ×3</h3></div>
-    <div class="co">Capgemini · Cairo</div>
-    <div class="tags"><span class="tag t-cairo">Cairo</span><span class="tag t-track">Sales / Ops</span></div>
-    <p>Three separate Turkish-speaker openings on their Cairo delivery centre: <strong>Customer Service (Turkish Speaker)</strong>, <strong>C2C Collections Process Expert (Turkish Speaker)</strong>, and <strong>Turkish Customer Experience Process Lead</strong>.</p>
-    <div class="fit"><b>Why it fits:</b> the Process Lead role is the one to chase — it's her sales + organisation/strategy background wrapped around the Turkish language, not a phone job. Permanent contract, multinational, permit process already in place.</div>
-    <div class="links">
-      <a class="btn" href="https://eg.indeed.com/q-turkish-%D9%88%D8%B8%D8%A7%D8%A6%D9%81.html" target="_blank">Indeed EG listing</a>
-      <a class="btn" href="https://www.capgemini.com/eg-en/jobs/" target="_blank">Capgemini Egypt careers</a>
-    </div>
-  </div>
-
-  <div class="card" data-tags="cairo sales">
-    <div class="rowtop"><h3>Account Manager, MEA — Turkish Speaker</h3></div>
-    <div class="co">Agoda · Cairo (hybrid)</div>
-    <div class="tags"><span class="tag t-cairo">Cairo</span><span class="tag t-track">Sales / BD</span></div>
-    <p>Agoda runs its whole MEA supply team out of Cairo and staffs it by language — they currently have Cairo-based Account Manager seats posted for Italian, French, German and Turkish speakers.</p>
-    <div class="fit"><b>Why it fits:</b> the closest thing on this page to a straight sales + partner-management job where Turkish is the qualifying credential. Fresh grads are explicitly welcome on these, so the bar is fit, not years.</div>
-    <div class="links">
-      <a class="btn" href="https://careersatagoda.com/job/8050071-account-manager-mea-cairo-based/" target="_blank">Agoda careers — MEA Cairo</a>
-      <a class="btn" href="https://careersatagoda.com/blog/agodas-supply-team-in-cairo/" target="_blank">About the Cairo team</a>
-    </div>
-  </div>
-
-  <div class="card" data-tags="cairo translation">
-    <div class="rowtop"><h3>Turkish Translator</h3></div>
-    <div class="co">Sokkar (industrial sewing machines) · Maadi, Cairo</div>
-    <div class="tags"><span class="tag t-cairo">Cairo</span><span class="tag t-track">Translation</span></div>
-    <p>Posted within the last day on Wuzzuf. Full-time on-site, Maadi. A machinery importer dealing with Turkish suppliers — the translation is commercial/technical, English↔Turkish, not Arabic-dependent in practice.</p>
-    <div class="fit"><b>Why it fits:</b> her translation-office experience, directly. Also the classic doorway into the Turkish-trade side of Egyptian industry, which is where the sales roles live.</div>
-    <div class="links">
-      <a class="btn" href="https://wuzzuf.net/jobs/p/Sp8lI1DgdYYL-Turkish-Translator-Cairo-Egypt" target="_blank">Apply on Wuzzuf</a>
-    </div>
-  </div>
-
-  <div class="card" data-tags="cairo content">
-    <div class="rowtop"><h3>Social Media Manager (Turkish Speaker)</h3></div>
-    <div class="co">Plan B Oncocare · Sheikh Zayed, Giza (hybrid)</div>
-    <div class="tags"><span class="tag t-cairo">Cairo</span><span class="tag t-track">Content</span></div>
-    <p>Hybrid, Turkish-language social and community work for a medical-travel business — a sector where Türkiye is the destination market, so Turkish copy is the product.</p>
-    <div class="fit"><b>Why it fits:</b> content writer + copywriter + a bit of sales instinct, in one role. Health tourism to Türkiye is a big Cairo-based industry and it runs on Turkish-language marketing.</div>
-    <div class="links">
-      <a class="btn" href="https://wuzzuf.net/a/Turkish-Jobs-in-Egypt" target="_blank">Wuzzuf — Turkish jobs</a>
-    </div>
-  </div>
-
-  <div class="card" data-tags="cairo remote content">
-    <div class="rowtop"><h3>Social Media &amp; Community Manager</h3></div>
-    <div class="co">iqibla · Cairo (remote option)</div>
-    <div class="tags"><span class="tag t-cairo">Cairo</span><span class="tag t-remote">Remote OK</span><span class="tag t-track">Content</span></div>
-    <p>Full- or part-time with a remote option, consumer brand selling into Muslim-majority markets including Türkiye.</p>
-    <div class="fit"><b>Why it fits:</b> part-time + remote makes it stackable with tutoring or freelance translation while she builds income.</div>
-    <div class="links">
-      <a class="btn" href="https://wuzzuf.net/a/Turkish-Jobs-in-Egypt" target="_blank">Wuzzuf — Turkish jobs</a>
-    </div>
-  </div>
-
-  <div class="card" data-tags="cairo sales">
-    <div class="rowtop"><h3>Turkish Customer Service Representative</h3></div>
-    <div class="co">Teleperformance (TP) Egypt</div>
-    <div class="tags"><span class="tag t-cairo">Cairo</span><span class="tag t-track">Sales / CS</span></div>
-    <p>Standing Turkish-language vacancy on TP's Egypt careers site. Requirements are deliberately low — degree or equivalent, good English, 20 wpm typing.</p>
-    <div class="fit"><b>Why it fits:</b> not the destination, but the fastest possible <b>yes</b> and the cleanest route to a sponsored permit + Egyptian payroll history. TP and Majorel/Concentrix promote language leads internally within a year.</div>
-    <div class="links">
-      <a class="btn" href="https://www.tp.com/en-us/job-opportunities/egypt/turkish-customer-service-representative/" target="_blank">TP Egypt — apply</a>
-      <a class="btn" href="https://jobs.concentrix.com/job-search/?country=Egypt" target="_blank">Concentrix Egypt</a>
-    </div>
-  </div>
-
-  <div class="card" data-tags="cairo sales">
-    <div class="rowtop"><h3>Customer Service / Tele-Sales (Turkish)</h3></div>
-    <div class="co">QMove · Nasr City &nbsp;/&nbsp; Maidaa · Nasr City</div>
-    <div class="tags"><span class="tag t-cairo">Cairo</span><span class="tag t-track">Sales</span></div>
-    <p>Two separate Nasr City employers running Turkish-or-Urdu speaking tele-sales desks (travel / Umrah services). Low barrier, on-site.</p>
-    <div class="fit"><b>Why it fits:</b> Turkish-language <em>selling</em> rather than support — closer to her sales experience, and small enough that she'd shape the desk.</div>
-    <div class="links">
-      <a class="btn" href="https://wuzzuf.net/a/Turkish-Jobs-in-Egypt" target="_blank">Wuzzuf</a>
-      <a class="btn" href="https://eg.indeed.com/q-turkish-%D9%88%D8%B8%D8%A7%D8%A6%D9%81.html" target="_blank">Indeed EG</a>
-    </div>
-  </div>
-
-  <div class="card" data-tags="cairo research content">
-    <div class="rowtop"><h3>Turkish Content Moderation &amp; QA</h3></div>
-    <div class="co">Majorel Egypt · Alexandria</div>
-    <div class="tags"><span class="tag t-cairo">Egypt</span><span class="tag t-track">Research</span></div>
-    <p>Recurring Turkish-language queues: <strong>Content Moderation</strong> and <strong>QA Specialist (Turkish &amp; English)</strong>. Alexandria-based, so only relevant if she'd relocate or they'd allow remote.</p>
-    <div class="fit"><b>Why it fits:</b> moderation/QA on Turkish-language content is adjacent to news research — it's reading and judging Turkish media all day. Listed here mostly as a signal: Egypt's BPO sector keeps standing Turkish queues open.</div>
-    <div class="links">
-      <a class="btn" href="https://wuzzuf.net/a/Turkish-Jobs-in-Egypt" target="_blank">Wuzzuf — Majorel</a>
-    </div>
-  </div>
-
+<div class="note-strat">
+  <h3>How to play this, in one paragraph</h3>
+  <p><b>English is the working language; Turkish is what makes the shortlist short.</b> The English-only roles — Vodafone, Foundever, Capgemini reporting, the UN posts — are where the career is, but also where she competes with a very large Cairo talent pool. The Turkish-tagged roles have perhaps a dozen qualified applicants in the whole country. So: <b>apply to the Turkish ones for speed and a work permit, apply to the English ones for the trajectory</b>, and don't treat them as separate searches.</p>
+  <p><b>Priority cards deserve a tailored application</b> — a rewritten opening paragraph and a CV pointed at that job. Everything else can take the standard version. Fifteen careless applications lose to four careful ones.</p>
 </div>
 
-<h2 class="sec">B · Remote &amp; freelance — no permit needed</h2>
-<div class="cards" id="cards2">
-
-  <div class="card" data-tags="remote free translation">
-    <div class="rowtop"><h3>Register as an EN→TR vendor with the big LSPs</h3></div>
-    <div class="co">RWS · Lionbridge · TransPerfect · Welocalize · Smartcat · Blend</div>
-    <div class="tags"><span class="tag t-remote">Remote</span><span class="tag t-free">Freelance</span><span class="tag t-track">Translation</span></div>
-    <p>The large language-service providers keep permanent open vendor registration for native Turkish translators, and they pay in USD/EUR regardless of where you sit. This is a background application, not a job hunt — fill the vendor forms once, then work arrives.</p>
-    <div class="fit"><b>Why it fits:</b> the single highest-leverage hour she can spend. Native Turkish is the entire qualification, her translation-office experience is the proof, and Cairo cost-of-living against EUR rates is a real arbitrage.</div>
-    <div class="links">
-      <a class="btn" href="https://www.smartcat.com/" target="_blank">Smartcat</a>
-      <a class="btn" href="https://www.proz.com/" target="_blank">ProZ</a>
-      <a class="btn" href="https://www.getblend.com/" target="_blank">Blend</a>
+<div class="toolbar">
+  <div class="trow">
+    <div class="search">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4">
+        <circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+      <input id="q" placeholder="Search role, company, keyword…" autocomplete="off">
     </div>
-  </div>
-
-  <div class="card" data-tags="remote free research translation">
-    <div class="rowtop"><h3>AI training &amp; evaluation in Turkish</h3></div>
-    <div class="co">Outlier · Mindrift · Appen · TELUS Digital · Toloka</div>
-    <div class="tags"><span class="tag t-remote">Remote</span><span class="tag t-free">Freelance</span><span class="tag t-track">Research</span></div>
-    <p>Every frontier-model lab is short of educated native speakers of mid-sized languages. Turkish work — writing prompts, rating model output, localising evaluation sets, fact-checking — pays materially better than translation piecework and is fully asynchronous.</p>
-    <div class="fit"><b>Why it fits:</b> this is where her odd mix actually becomes an advantage — they pay a premium for people who can write well <em>and</em> research <em>and</em> judge nuance in Turkish. No degree gatekeeping, no interview in most cases.</div>
-    <div class="links">
-      <a class="btn" href="https://www.opentrain.ai/jobs/" target="_blank">OpenTrain job board</a>
-      <a class="btn" href="https://alignlist.com/companies" target="_blank">AlignList — all platforms</a>
+    <div class="seg">
+      <button id="vList" class="on">List</button>
+      <button id="vBoard">Board</button>
     </div>
+    <select class="sel" id="sort" aria-label="Sort">
+      <option value="prio">Sort: priority</option>
+      <option value="date">Sort: newest posted</option>
+      <option value="dead">Sort: closing soonest</option>
+      <option value="org">Sort: company</option>
+    </select>
   </div>
-
-  <div class="card" data-tags="remote free tutoring">
-    <div class="rowtop"><h3>Teach Turkish (not English) online</h3></div>
-    <div class="co">italki · Preply</div>
-    <div class="tags"><span class="tag t-remote">Remote</span><span class="tag t-free">Freelance</span><span class="tag t-track">Tutoring</span></div>
-    <p>She asked about English tutoring — but on these platforms she'd be a non-native English tutor competing with thousands, while as a native Turkish tutor she's in a thin, well-paid supply pool with growing demand.</p>
-    <div class="fit"><b>Straight advice:</b> lead the profile with <b>Turkish for foreigners</b>, and offer English only as a secondary subject to Turkish-speaking beginners — where being Turkish is a selling point rather than a handicap. She sets her own rate and hours.</div>
-    <div class="links">
-      <a class="btn" href="https://preply.com/en/online/turkish-tutoring-jobs" target="_blank">Preply — teach Turkish</a>
-      <a class="btn" href="https://www.italki.com/teacher/application" target="_blank">italki — apply</a>
-    </div>
+  <div class="chipscroll"><div class="chips" id="fLang"></div></div>
+  <div class="chipscroll"><div class="chips" id="fMode"></div></div>
+  <div class="chipscroll"><div class="chips" id="fTrack"></div></div>
+  <div class="countline">
+    <span id="count"></span>
+    <span style="display:flex;gap:7px">
+      <button class="btn-ghost" id="reset">Clear filters</button>
+      <button class="btn-ghost danger" id="wipe">Reset statuses</button>
+    </span>
   </div>
-
-  <div class="card" data-tags="remote free content">
-    <div class="rowtop"><h3>Turkish copywriting &amp; content, remote</h3></div>
-    <div class="co">JustWatch · Upwork · Himalayas · DailyRemote</div>
-    <div class="tags"><span class="tag t-remote">Remote</span><span class="tag t-free">Freelance</span><span class="tag t-track">Content</span></div>
-    <p>There's a steady flow of "native Turkish copywriter, remote" contracts — e.g. JustWatch runs a freelance Turkish-speaking Movie &amp; TV copywriter brief. Global brands localising into Türkiye need writers, not translators.</p>
-    <div class="fit"><b>Why it fits:</b> directly her content-writer + copywriter experience, priced in hard currency. Positioning to use: <em>"Turkish copywriter who also translates"</em> — that pays roughly double <em>"translator who also writes"</em>.</div>
-    <div class="links">
-      <a class="btn" href="https://himalayas.app/jobs/countries/turkey/copywriting" target="_blank">Himalayas — TR copywriting</a>
-      <a class="btn" href="https://dailyremote.com/remote-writing-jobs-in-turkey" target="_blank">DailyRemote</a>
-      <a class="btn" href="https://www.remoterocketship.com/country/turkey/jobs/content-writer" target="_blank">RemoteRocketship</a>
-    </div>
-  </div>
-
-  <div class="card" data-tags="remote research ir">
-    <div class="rowtop"><h3>Turkish-language OSINT &amp; media monitoring</h3></div>
-    <div class="co">Risk consultancies · news wires · NGOs</div>
-    <div class="tags"><span class="tag t-remote">Remote</span><span class="tag t-track">Research / IR</span></div>
-    <p>"Language-enabled OSINT analyst" and Turkish media-monitoring roles come up continuously — political risk firms, humanitarian organisations, and newsrooms all need someone reading Turkish primary sources and writing English summaries. Many are remote or hybrid.</p>
-    <div class="fit"><b>Why it fits:</b> this is the exact intersection of her <b>research department for global news</b> and <b>international relations</b> lines, and it's the track with the highest ceiling of anything on this page. Worth building toward even if the first job is elsewhere.</div>
-    <div class="links">
-      <a class="btn" href="https://www.indeed.com/q-Open-Source-Intelligence-Research-Analyst-l-Remote-jobs.html" target="_blank">Indeed — OSINT remote</a>
-      <a class="btn" href="https://builtin.com/job/language-enabled-open-source-intelligence-osint-analyst/3537965" target="_blank">Example role</a>
-    </div>
-  </div>
-
-  <div class="card" data-tags="remote research ir">
-    <div class="rowtop"><h3>ICRC Cairo — Turkish-speaking Researcher</h3></div>
-    <div class="co">International Committee of the Red Cross · Maadi, Cairo</div>
-    <div class="tags"><span class="tag t-cairo">Cairo</span><span class="tag t-track">Research / IR</span></div>
-    <p>ICRC has previously run a <strong>Researcher – Turkish Speaker</strong> post out of its Maadi office: university degree, fluent Turkish + English, solid knowledge of Turkish political and humanitarian developments. That posting is old — but the function exists in Cairo.</p>
-    <div class="fit"><b>Action:</b> this is a "set an alert and send a speculative CV" target, not an apply-today one. It is the single best-matched job title found anywhere in Cairo for her research + IR profile.</div>
-    <div class="links">
-      <a class="btn" href="https://careers.icrc.org/" target="_blank">ICRC careers</a>
-      <a class="btn" href="https://www.unjobs.org/duty_stations/cairo" target="_blank">UN jobs — Cairo</a>
-    </div>
-  </div>
-
 </div>
 
-<h2 class="sec">C · Institutions to approach directly — no listing required</h2>
-<p class="sub" style="margin-bottom:14px">These never post on Wuzzuf. They hire Turkish nationals in Cairo through walk-in CVs, the community, and word of mouth. A short Turkish-language email with a CV attached is the entire application process.</p>
-<table>
-  <thead><tr><th>Organisation</th><th>What they'd hire her for</th><th>Contact route</th></tr></thead>
-  <tbody>
-    <tr>
-      <td><strong>Yunus Emre Institute</strong><br><span style="font-size:12px">Türk Kültür Merkezi</span></td>
-      <td>Turkish language instruction, cultural programming, coordination. Her tutoring + IR + organisation experience in one place, and the working language is Turkish.</td>
-      <td><a href="https://www.yee.org.tr/en" target="_blank">yee.org.tr</a> — email the Cairo/regional centre directly</td>
-    </tr>
-    <tr>
-      <td><strong>Turkish Embassy in Cairo</strong><br><span style="font-size:12px">+ Commercial Counsellor's office</span></td>
-      <td>Locally-engaged staff: commercial section support, translation, correspondence, event and delegation coordination. The trade office is the one to write to — it is chronically under-staffed and deals with Turkish exporters daily.</td>
-      <td><a href="https://cairo-emb.mfa.gov.tr/Mission/Contact" target="_blank">cairo-emb.mfa.gov.tr</a></td>
-    </tr>
-    <tr>
-      <td><strong>DEİK — Türkiye–Egypt Business Council</strong></td>
-      <td>Business-council coordination, member relations, delegation organisation. Exactly the "international relations representative" role she described, and it runs bilingual TR/EN.</td>
-      <td><a href="https://www.deik.org.tr/turkiye-africa-business-councils?pm=28&sm=diplomatik_misyon_temsilcilikleri" target="_blank">deik.org.tr</a></td>
-    </tr>
-    <tr>
-      <td><strong>Turkish manufacturers in Egypt</strong><br><span style="font-size:12px">Beko/Arçelik, textile &amp; garment groups</span></td>
-      <td>Export sales, supplier liaison, HQ-to-factory communication. Turkish investment into Egyptian industry is expanding fast — new garment and appliance plants in 10th of Ramadan and the industrial zones, all needing people who can talk to Istanbul and to the floor.</td>
-      <td><a href="https://enterpriseam.com/egypt/inside_industry/the-story-behind-the-turkish-investments-flooding-egyptian-industry/" target="_blank">Background on the wave</a> · approach HR directly</td>
-    </tr>
-    <tr>
-      <td><strong>Turkish community &amp; medical-tourism agencies</strong></td>
-      <td>Turkish-language sales, patient coordination, content. A dense, informal, fast-hiring Cairo network — and the one place her Turkish is worth more than any credential.</td>
-      <td>Facebook groups for Turks in Egypt; Turkish restaurant/business noticeboards in Nasr City &amp; Maadi</td>
-    </tr>
-  </tbody>
-</table>
+<div id="listView">
+  <h2 class="sec">Dated openings — posted in the last 8 weeks</h2>
+  <p class="secsub">Each links directly to its own application page. Deadlines shown where the employer published one; the rest close when filled, so earlier is better.</p>
+  <div class="grid" id="grid"></div>
+  <div class="empty" id="empty">Nothing matches those filters.</div>
 
-<h2 class="sec">D · Standing searches to check weekly</h2>
-<table>
-  <thead><tr><th>Board</th><th>Search</th><th>Why</th></tr></thead>
-  <tbody>
-    <tr><td><a href="https://wuzzuf.net/a/Turkish-Jobs-in-Egypt" target="_blank">Wuzzuf</a></td><td>"Turkish" — all Egypt</td><td>The main Egyptian board. Roughly 8–20 Turkish-language roles at any time; turnover is fast, so weekly beats monthly.</td></tr>
-    <tr><td><a href="https://eg.indeed.com/q-turkish-%D9%88%D8%B8%D8%A7%D8%A6%D9%81.html" target="_blank">Indeed Egypt</a></td><td>"Turkish"</td><td>Catches the multinationals (Capgemini, Agoda, Nestlé, Amazon) that don't always post to Wuzzuf.</td></tr>
-    <tr><td><a href="https://eg.jooble.org/jobs-turkish/Egypt" target="_blank">Jooble EG</a></td><td>"Turkish speakers"</td><td>Aggregator — picks up small employers that post nowhere else.</td></tr>
-    <tr><td><a href="https://www.linkedin.com/jobs/" target="_blank">LinkedIn</a></td><td>"Turkish speaker" + Cairo, and again with Remote</td><td>Set the alert to daily. Almost every BPO and shared-service Turkish desk role appears here first.</td></tr>
-    <tr><td><a href="https://jobdetails.nestle.com/" target="_blank">Nestlé careers</a></td><td>Alert on Cairo + Turkish</td><td>Their Cairo shared-service centre repeatedly opens Turkish-speaker procurement and finance roles. One just closed — the next is coming.</td></tr>
-    <tr><td><a href="https://www.bayt.com/en/egypt/jobs/turkish-jobs/" target="_blank">Bayt</a></td><td>Turkish jobs, Egypt</td><td>Weaker than Wuzzuf but occasionally unique Gulf-HQ postings with Cairo bases.</td></tr>
-  </tbody>
-</table>
+  <h2 class="sec">Rolling — open continuously, no deadline</h2>
+  <p class="secsub">Platforms and vendor registrations that accept applications year-round. These aren't job postings, they're income channels: set them up once and they run in the background while the dated applications are pending.</p>
+  <div class="grid" id="gridRoll"></div>
+</div>
 
-<h2 class="sec">E · What I'd actually do, in order</h2>
-<ol class="plan">
-  <li><b>Today — apply to the three that need no preparation.</b> The Maadi Turkish Translator post (a day old, so she's early), the TP Egypt Turkish CSR standing vacancy, and Agoda's Cairo MEA account manager seat. Different tiers on purpose: one is a real fit, one is a fast safety net, one is the good outcome.</li>
-  <li><b>This week — split the CV in two.</b> One version leads with <em>translation &amp; localisation</em>, one leads with <em>Turkish-market sales &amp; account management</em>. A single CV listing seven different careers reads as unfocused to every recruiter on this page; two focused ones read as two strong candidates.</li>
-  <li><b>This week — set up the income floor that doesn't need anyone's permission.</b> Register on Smartcat and ProZ as an EN→TR translator, sign up to one AI-training platform, and put up an italki profile teaching Turkish. Three or four hours of setup, and it earns in foreign currency while the employed search runs.</li>
-  <li><b>Next week — write the four institutional emails.</b> Yunus Emre, the Embassy's commercial counsellor, DEİK's Türkiye–Egypt council, and two Turkish manufacturers. In Turkish, short, CV attached, naming what she'd do for them. These have no application form, so almost nobody sends them — which is exactly why they work.</li>
-  <li><b>Ongoing — build toward the Turkish-research lane.</b> The OSINT / media-monitoring / ICRC-researcher track is the highest-ceiling work here and the best match for her news-research and international-relations experience. It usually wants a visible track record, so: a public writing sample or two analysing Turkish politics in English, and a LinkedIn that says <em>Turkey analyst</em> rather than <em>generalist</em>.</li>
-  <li><b>Check before signing anything — the permit.</b> Confirm which side sponsors the work permit and how long it takes, in writing, before accepting an offer. Multinationals handle it as routine; small firms sometimes promise and stall. Freelance income from clients outside Egypt is a different question and worth checking separately with a local accountant.</li>
-</ol>
-
-<div class="empty" id="empty">Nothing matches that filter — try another.</div>
+<div id="boardView" style="display:none">
+  <h2 class="sec">Pipeline</h2>
+  <p class="hint">Swipe sideways to see all six columns →</p>
+  <div class="boardscroll"><div class="board" id="board"></div></div>
+</div>
 
 <footer>
-  Compiled 16 August 2026 from Wuzzuf, Indeed Egypt, Bayt, Jooble, Agoda, Teleperformance and Capgemini career sites, plus DEİK, the Turkish Embassy in Cairo and Yunus Emre Institute.<br>
-  Job listings move fast — verify each posting is still open before investing time. Roles marked as previously-posted (ICRC, Nestlé) are alert targets, not live applications. Nothing here is legal or immigration advice; confirm permit and tax questions with a qualified adviser in Egypt.
+  <b>Sources:</b> UN Career / Impactpool (IOM, UN Women, UNFPA, UNIC Cairo), Amideast jobs portal, Agoda Careers, Capgemini Careers, Foundever Careers, Vodafone Opportunities, Wuzzuf, Indeed Egypt, Jooble Egypt. Compiled 16 August 2026 — every dated listing was posted on or after mid-June 2026.<br><br>
+  Listings close without notice — open the link before writing an application. Statuses and notes are stored in this browser only, so they stay on this device and are cleared if you clear site data. Nothing here is legal or immigration advice; confirm work-permit sponsorship in writing before accepting any offer.
 </footer>
-
 </div>
 
 <script>
-(function(){
-  var chips=document.querySelectorAll('#chips .chip');
-  var cards=document.querySelectorAll('.card');
-  var empty=document.getElementById('empty');
-  chips.forEach(function(c){
-    c.addEventListener('click',function(){
-      chips.forEach(function(x){x.classList.remove('on')});
-      c.classList.add('on');
-      var f=c.dataset.f, shown=0;
-      cards.forEach(function(card){
-        var ok = (f==='all') || (card.dataset.tags||'').split(' ').indexOf(f)>-1;
-        card.classList.toggle('hide',!ok);
-        if(ok) shown++;
-      });
-      empty.style.display = shown ? 'none' : 'block';
-      document.querySelectorAll('.cards').forEach(function(g){
-        var vis=g.querySelectorAll('.card:not(.hide)').length;
-        g.style.display = vis ? 'grid' : 'none';
-        var h=g.previousElementSibling;
-        while(h && !h.classList.contains('sec')) h=h.previousElementSibling;
-      });
-    });
-  });
+"use strict";
+const TODAY = new Date('2026-08-16');
+const KEY = "cairo-opportunity-tracker-v1";
+
+/* localStorage wrapper — degrades to memory if storage is unavailable */
+const store = (()=>{
+  let ok=true;
+  try{ const t="__t"; localStorage.setItem(t,"1"); localStorage.removeItem(t); }
+  catch(e){ ok=false; }
+  let mem={};
+  return {
+    ok,
+    get(){ try{ return ok ? JSON.parse(localStorage.getItem(KEY)||"{}") : mem; }catch(e){ return {}; } },
+    set(v){ try{ ok ? localStorage.setItem(KEY,JSON.stringify(v)) : (mem=v); }catch(e){} },
+    clear(){ try{ ok ? localStorage.removeItem(KEY) : (mem={}); }catch(e){} }
+  };
 })();
+
+const DATA = [
+  {t:"Associate Programme Advisor — Fibres, Textiles & Clothing",o:"International Trade Centre (ITC)",loc:"Cairo",posted:"2026-08-14",dead:"2026-08-30",url:"https://uncareer.net/city/Cairo",mode:"cairo",lang:"english",track:"strategy",prio:1,why:"Trade development in textiles — the one sector where Türkiye and Egypt genuinely interlock. Her strategy background plus a real substantive edge from being Turkish. English working language."},
+  {t:"Senior Audiovisual Communications Associate",o:"IOM — Regional Office MENA",loc:"Cairo",posted:"2026-08-13",dead:"2026-08-26",url:"https://uncareer.net/city/Cairo",mode:"cairo",lang:"english",track:"content",prio:1,why:"Communications and storytelling inside a UN regional hub. Content and copy skills, English medium, Arabic not the gate."},
+  {t:"Communication Assistant",o:"Food and Agriculture Organization (FAO)",loc:"Cairo",posted:"2026-08-10",dead:"2026-08-31",url:"https://uncareer.net/city/Cairo",mode:"cairo",lang:"english",track:"content",prio:1,why:"Most realistic first UN role on the list — assistant grade, English writing as the core task, and the UN system rewards internal moves heavily afterwards."},
+  {t:"Digital Content Creation Support — UNFPA Campaigns",o:"UNFPA",loc:"Egypt · online",posted:"2026-08-04",dead:null,url:"https://uncareer.net/vacancy/digital-content-creation-support-for-unfpa-campaigns-859713",mode:"remote",lang:"english",track:"content",prio:1,why:"Explicitly allows contributors to work in English and/or Arabic across social, digital storytelling and web content. Remote, entry-level, direct copywriting fit."},
+  {t:"Social Media Monitor — UN Day 2026 Campaign",o:"UNIC Cairo / UNICC",loc:"Egypt · online",posted:"2026-08-07",dead:"2026-08-21",url:"https://uncareer.net/vacancy/monitor-social-media-for-un-day-2026-campaign-egypt-860620",mode:"remote",lang:"english",track:"content",prio:1,why:"Content-calendar building and campaign copy with no stated Arabic requirement. The single lowest-barrier way to get the UN system onto a CV."},
+  {t:"Participant Engagement Support — UN Day 2026 Campaign",o:"UNIC Cairo / UNICC",loc:"Egypt · online",posted:"2026-08-07",dead:"2026-08-21",url:"https://uncareer.net/vacancy/supporting-egypts-un-day-2026-campaign-participant-engagement-860619",mode:"remote",lang:"english",track:"strategy",prio:2,why:"Outreach and coordination leaning on her organisation skills. Arabic encouraged but not required, so an English-only application is still eligible."},
+  {t:"Grants Specialist",o:"Amideast",loc:"Cairo",posted:"2026-07-27",dead:null,url:"https://jobs.amideast.org/public/jobs/2026-075P1075.htm",mode:"cairo",lang:"english",track:"content",prio:1,why:"Wants a BA in English plus strong written English for proposal and grant writing — Arabic only 'preferred'. The cleanest Cairo match for a non-Arabic copywriter."},
+  {t:"Senior Academic Coordinator",o:"Amideast",loc:"Cairo",posted:"2026-07-27",dead:null,url:"https://jobs.amideast.org/public/jobs/2026-076P3384.htm",mode:"cairo",lang:"english",track:"tutoring",prio:2,why:"Near-native English and English-teaching experience required, Arabic explicitly not. Turns the tutoring background into a salaried coordination role rather than hourly work."},
+  {t:"Women's Rights & Gender Equality — National Consultancy",o:"UN Women",loc:"Cairo",posted:"2026-07-27",dead:null,url:"https://uncareer.net/vacancy/un-women-women-s-rights-and-gender-equality-national-consultancy-cairo-egypt-858178",mode:"cairo",lang:"english",track:"research",prio:2,why:"English mandatory, Arabic only desirable, and a low two-year bar for a research and facilitation assignment. Consultancies are the standard side door into the UN."},
+  {t:"Gender and Border Governance Consultant",o:"IOM — Regional Office MENA",loc:"Cairo",posted:"2026-07-23",dead:null,url:"https://uncareer.net/vacancy/gender-and-border-governance-consultant-857583",mode:"cairo",lang:"english",track:"ir",prio:2,why:"English-only consultancy with Arabic not listed at all. Matches the international relations line; deliverable-based so the permit question is simpler."},
+  {t:"Protection Officer (Regional Programmes)",o:"IOM — Regional Office MENA",loc:"Cairo",posted:"2026-06-18",dead:null,url:"https://uncareer.net/vacancy/protection-officer-regional-programmes-p-851823",mode:"cairo",lang:"english",track:"ir",prio:2,why:"Internationally recruited post where English fluency is the only language requirement — one of the few Cairo UN roles genuinely open to a non-Egyptian, non-Arabic speaker."},
+
+  {t:"Account Manager, MEA — Turkish Speaker",o:"Agoda (Booking Holdings)",loc:"Cairo · hybrid",posted:"2026-08-11",dead:null,url:"https://careersatagoda.com/job/8129815-supply-em-account-manager-mea-turkish-speaker-cairo-based/",mode:"cairo",lang:"both",track:"sales",prio:1,why:"A real commercial career where Turkish is the qualifier and English is the operating language. Multinational, routine permit sponsorship, fresh graduates explicitly welcome."},
+  {t:"Account Specialist — Turkish Speaking, MEA",o:"Agoda (Booking Holdings)",loc:"Cairo · hybrid",posted:"2026-08-05",dead:null,url:"https://careersatagoda.com/job/8110798-account-specialist-turkish-speaking-mea-cairo-based/",mode:"cairo",lang:"both",track:"sales",prio:1,why:"Same Cairo supply team one rung lower — Turkish and English only, no Arabic. Apply to both this and the Account Manager; they screen from one pool."},
+  {t:"Turkish Customer Experience Process Lead",o:"Capgemini",loc:"Cairo",posted:"2026-07-15",dead:null,url:"https://eg.indeed.com/viewjob?jk=996246e3e9bc3f30",mode:"cairo",lang:"turkish",track:"strategy",prio:1,why:"Process design and improvement over a Turkish-language queue — her organisation & strategy line, on a permanent multinational contract. Chase this, not the CS seat."},
+  {t:"Employee Engagement & Comms Specialist",o:"Vodafone Egypt",loc:"Cairo",posted:"2026-08-12",dead:null,url:"https://opportunities.vodafone.com/job/Cairo-Employee-Engagement-&-Comms-Specialist/1425839133/",mode:"cairo",lang:"english",track:"content",prio:1,why:"Internal-communications writing and channel management, comms degree only preferred, no stated Arabic requirement. Strong-brand English content role at a permit-sponsoring multinational."},
+  {t:"Reporting Specialist (English Speaking)",o:"Capgemini",loc:"Cairo",posted:"2026-08-08",dead:null,url:"https://careers.capgemini.com/job/Cairo-Reporting-Specialist-%28English-Speaking%29/1403473933/",mode:"cairo",lang:"english",track:"research",prio:2,why:"The title itself flags English-only staffing, and it asks for business administration rather than engineering. Analysis and reporting work, permit-sponsoring employer."},
+  {t:"Conversational Designer",o:"Foundever",loc:"Cairo · remote",posted:"2026-08-12",dead:null,url:"https://jobs.foundever.com/job/Cairo-Conversational-Designer-Cair/1418513500/",mode:"remote",lang:"english",track:"content",prio:1,why:"Writing bot personas and dialogue flows is copywriting in disguise. C1 English only, no Arabic, no engineering degree — and remote."},
+  {t:"Turkish Interpreter",o:"One World Global Services",loc:"Remote",posted:"2026-08-06",dead:null,url:"https://eg.jooble.org/jdp/-8204583793717642434",mode:"remote",lang:"both",track:"translation",prio:2,why:"Turkish↔English interpreting, fully remote, native Turkish plus strong English is the entire spec. Flexible hours make it stackable with anything else here."},
+  {t:"Business Travel eSIM Service Desk Advisor",o:"Vodafone _VOIS",loc:"Cairo",posted:"2026-08-06",dead:null,url:"https://opportunities.vodafone.com/job/Cairo-Vodafone-Business-Travel-eSIM-Service-Desk-Advisor-%28VOIS%29/1412952233/",mode:"cairo",lang:"english",track:"sales",prio:3,why:"C2 English is the single hard requirement and no degree is specified. Not the destination, but _VOIS is a large hub that hires non-Egyptians and moves people internally."},
+  {t:"English Recruitment Specialist",o:"Foundever",loc:"Cairo",posted:"2026-07-27",dead:null,url:"https://jobs.foundever.com/job/Cairo-English-Recruitment-Specialist-Cair/1325237200/",mode:"cairo",lang:"english",track:"strategy",prio:2,why:"An explicitly English-language recruiting seat — organisation, judgement and persuasion, which is her sales and coordination experience under another name."},
+  {t:"Trainer — US Experience",o:"Foundever",loc:"Cairo",posted:"2026-07-23",dead:null,url:"https://jobs.foundever.com/job/Cairo-Trainer-US-Experience-Cair/1336362100/",mode:"cairo",lang:"english",track:"tutoring",prio:2,why:"Classroom delivery and training-material design in English — the corporate version of tutoring, on a salary instead of an hourly rate."},
+  {t:"English Speaking Customer Advisor",o:"Foundever",loc:"Cairo",posted:"2026-07-20",dead:null,url:"https://jobs.foundever.com/job/Cairo-English-speaking-Customer-Advisor-for-Foundever-Cairo%2C-Egypt-Cair/1243003000/",mode:"cairo",lang:"english",track:"sales",prio:3,why:"Foundever's Cairo hub runs dedicated non-Arabic language lines and is used to sponsoring foreign-language staff. A fast yes and a clean route to a permit."},
+  {t:"Social Media & Community Manager",o:"iQibla",loc:"Cairo · remote option",posted:"2026-07-16",dead:null,url:"https://wuzzuf.net/jobs/p/8h36yc7vdwfk-social-media-community-manager-iqibla-cairo-egypt",mode:"remote",lang:"both",track:"content",prio:2,why:"English writing mandatory, Turkish strongly preferred, Arabic just one option among several. Part-time and remote-friendly, so it stacks with freelance work."},
+  {t:"Customer Service / Tele-Sales (Turkish)",o:"QMove",loc:"Nasr City, Cairo",posted:"2026-07-29",dead:null,url:"https://wuzzuf.net/jobs/p/e7y1k3xpccb8-customer-service-tele-sales-turkish-or-urdu-qmove-cairo-egypt",mode:"cairo",lang:"turkish",track:"sales",prio:3,why:"States outright that Arabic is not required — fluent Turkish plus good English is the whole spec, and prior experience is only a plus. Turkish-language selling, not support."},
+  {t:"Customer Service (Turkish Speaker)",o:"Capgemini",loc:"Cairo",posted:"2026-07-15",dead:null,url:"https://eg.indeed.com/viewjob?jk=4b4d5371af916b34",mode:"cairo",lang:"turkish",track:"sales",prio:3,why:"Hires purely on Turkish plus English. Worth applying as a safety net — Capgemini promotes language staff into process roles internally within about a year."},
+  {t:"Customer Service Representative (Turkish)",o:"Maidaa for Umrah Services",loc:"Nasr City, Cairo",posted:"2026-07-10",dead:null,url:"https://eg.indeed.com/viewjob?jk=64f4cc39f6727394",mode:"cairo",lang:"turkish",track:"sales",prio:3,why:"Serves Turkish-speaking pilgrimage clients, so native Turkish is the hiring criterion outright. Small employer, so check the permit question early."}
+];
+
+const ROLL = [
+  {t:"AI training & evaluation — English + Turkish",o:"Outlier · Mindrift · Appen · TELUS · Toloka",url:"https://www.opentrain.ai/jobs/",mode:"remote",lang:"both",track:"research",prio:1,why:"Fastest hard-currency income here — usually no interview, fully asynchronous, and bilingual English–Turkish tasks pay a premium. Set this up first; it funds the wait."},
+  {t:"Teach English for Turkish speakers",o:"italki",url:"https://www.italki.com/teacher/application",mode:"free",lang:"both",track:"tutoring",prio:1,why:"Not 'English tutor' — English for Turkish speakers, where sharing their first language is the selling point. She competes against dozens, not thousands, and sets her own rate."},
+  {t:"Tutor profile — English & Turkish",o:"Preply",url:"https://preply.com/en/teach",mode:"free",lang:"both",track:"tutoring",prio:2,why:"A second listing on a second platform costs an hour and roughly doubles inbound. List Turkish-for-foreigners here too — thinner supply, better rates."},
+  {t:"Remote SDR / business development",o:"Working Nomads · Built In",url:"https://www.workingnomads.com/remote-entry-level-sdr-jobs",mode:"remote",lang:"english",track:"sales",prio:1,why:"One of the few genuinely open remote career tracks: hired on communication and persistence, not credentials. Base plus commission beats every Cairo salary on this page."},
+  {t:"English content & copywriting briefs",o:"Himalayas · DailyRemote · RemoteRocketship",url:"https://himalayas.app/jobs",mode:"remote",lang:"english",track:"content",prio:2,why:"Filter for postings that don't say 'native English' — many judge the writing sample instead. Pitch as a writer covering Türkiye/MENA business, not as a generalist."},
+  {t:"Localisation vendor registration",o:"Smartcat · ProZ · RWS · Blend",url:"https://www.smartcat.com/marketplace/",mode:"free",lang:"both",track:"translation",prio:2,why:"One-time form, then work arrives passively in USD/EUR. Register as a localisation specialist and bilingual copywriter, not a translator — same pair, roughly double the rate."},
+  {t:"Standing search: UN & INGO roles in Cairo",o:"UN Career · Impactpool · ReliefWeb",url:"https://uncareer.net/city/Cairo",mode:"cairo",lang:"english",track:"ir",prio:1,why:"Highest-priority weekly check. These roles appear and close within two to three weeks, so a missed week is a missed job. Set the email alert."},
+  {t:"Standing search: Turkish roles in Egypt",o:"Wuzzuf · Indeed EG · LinkedIn",url:"https://wuzzuf.net/a/Turkish-Jobs-in-Egypt",mode:"cairo",lang:"turkish",track:"sales",prio:2,why:"Roughly 8–20 Turkish-language roles live at any time with fast turnover. Weekly beats monthly; being early on a fresh post matters more than the CV."}
+];
+
+const STATUSES=[{k:"todo",l:"Not started"},{k:"saved",l:"Shortlisted"},{k:"applied",l:"Applied"},
+  {k:"interview",l:"Interviewing"},{k:"offer",l:"Offer"},{k:"closed",l:"Closed / rejected"}];
+const TRACKS={research:"Research",ir:"Intl. relations",content:"Content & copy",sales:"Sales & BD",
+  strategy:"Strategy & ops",translation:"Translation",tutoring:"Tutoring"};
+
+DATA.forEach((d,i)=>{d.id="d"+i});
+ROLL.forEach((d,i)=>{d.id="r"+i;d.roll=true;d.posted=null;d.dead=null;d.loc=d.mode==="free"?"Freelance":"Remote"});
+const ALL=[...DATA,...ROLL];
+
+/* hydrate from storage */
+(function(){
+  const s=store.get();
+  ALL.forEach(d=>{ const v=s[d.id]||{}; d.st=v.st||"todo"; d.note=v.note||""; });
+})();
+let saveTimer=null;
+function persist(){
+  clearTimeout(saveTimer);
+  saveTimer=setTimeout(()=>{
+    const o={};
+    ALL.forEach(d=>{ if(d.st!=="todo"||d.note) o[d.id]={st:d.st,note:d.note}; });
+    store.set(o);
+  },220);
+}
+
+let F={lang:"all",mode:"all",track:"all",q:"",sort:"prio"};
+const days=(a,b)=>Math.round((b-a)/864e5);
+const fmt=s=>s?new Date(s).toLocaleDateString('en-GB',{day:'numeric',month:'short'}):"";
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+function chipbar(el,key,items){
+  el.innerHTML="";
+  items.forEach(it=>{
+    const c=document.createElement('span');
+    c.className="chip"+(F[key]===it.k?" on":"");
+    let n=ALL.length;
+    if(it.k!=="all"){
+      n=ALL.filter(d=> key==="lang"
+        ? (it.k==="both" ? d.lang==="both" : d.lang===it.k||d.lang==="both")
+        : d[key]===it.k).length;
+    }
+    c.innerHTML=esc(it.l)+(it.k==="all"?"":' <span class="n">'+n+'</span>');
+    c.onclick=()=>{F[key]=it.k;render()};
+    el.appendChild(c);
+  });
+}
+function match(d){
+  if(F.lang!=="all"){ if(F.lang==="both"? d.lang!=="both" : !(d.lang===F.lang||d.lang==="both")) return false }
+  if(F.mode!=="all" && d.mode!==F.mode) return false;
+  if(F.track!=="all" && d.track!==F.track) return false;
+  if(F.q){const s=(d.t+" "+d.o+" "+d.why+" "+(d.loc||"")).toLowerCase();
+    if(!s.includes(F.q.toLowerCase())) return false}
+  return true;
+}
+function sortFn(a,b){
+  if(F.sort==="prio") return a.prio-b.prio || (b.posted||"").localeCompare(a.posted||"");
+  if(F.sort==="date") return (b.posted||"").localeCompare(a.posted||"");
+  if(F.sort==="dead") return (a.dead||"9999").localeCompare(b.dead||"9999");
+  return a.o.localeCompare(b.o);
+}
+
+function card(d){
+  const el=document.createElement('div');
+  el.className="card"; el.dataset.st=d.st;
+  const age=d.posted?days(new Date(d.posted),TODAY):null;
+  const dl=d.dead?days(TODAY,new Date(d.dead)):null;
+  const langT=d.lang==="both"?'<span class="tag t-both">EN + TR</span>'
+    :d.lang==="turkish"?'<span class="tag t-tr">Turkish</span>':'<span class="tag t-en">English</span>';
+  el.innerHTML=`
+    <div class="cardtop">
+      <div><h3>${esc(d.t)}</h3><div class="org">${esc(d.o)}</div></div>
+      <span class="prio p${d.prio}">${d.prio===1?"Priority":d.prio===2?"Worth it":"Backup"}</span>
+    </div>
+    <div class="tags">${langT}
+      <span class="tag t-mode">${d.mode==="free"?"Freelance":d.mode==="remote"?"Remote":d.mode==="hybrid"?"Hybrid":"Cairo"}</span>
+      <span class="tag t-track">${TRACKS[d.track]}</span></div>
+    <p class="why">${esc(d.why)}</p>
+    <div class="dates">
+      ${d.roll?'<span class="fresh roll-tag">Always open</span>'
+        :`<span>Posted ${fmt(d.posted)}</span>${age!==null&&age<=10?'<span class="fresh">New</span>':''}`}
+      ${d.dead?`<span>Closes ${fmt(d.dead)}</span>${dl!==null&&dl<=14?`<span class="urg">${dl<=0?"Closed":dl+"d left"}</span>`:''}`:''}
+    </div>
+    <textarea class="note" placeholder="Notes — contact name, date applied, what you sent…">${esc(d.note)}</textarea>
+    <div class="actions">
+      <a class="apply" href="${d.url}" target="_blank" rel="noopener noreferrer">Open &amp; apply →</a>
+      <select class="st" aria-label="Status">${STATUSES.map(s=>`<option value="${s.k}"${d.st===s.k?" selected":""}>${s.l}</option>`).join("")}</select>
+      <button class="noteBtn${d.note?" has":""}" title="Notes" aria-label="Notes">✎</button>
+    </div>`;
+  el.querySelector('.st').onchange=e=>{d.st=e.target.value;persist();render()};
+  const ta=el.querySelector('.note'), nb=el.querySelector('.noteBtn');
+  nb.onclick=()=>{ta.classList.toggle('show');if(ta.classList.contains('show'))ta.focus()};
+  ta.oninput=e=>{d.note=e.target.value;nb.classList.toggle('has',!!d.note);persist()};
+  if(d.note) ta.classList.add('show');
+  return el;
+}
+
+function render(){
+  chipbar(document.getElementById('fLang'),'lang',
+    [{k:"all",l:"All languages"},{k:"english",l:"English"},{k:"turkish",l:"Turkish"},{k:"both",l:"Both"}]);
+  chipbar(document.getElementById('fMode'),'mode',
+    [{k:"all",l:"Anywhere"},{k:"cairo",l:"Cairo"},{k:"remote",l:"Remote"},{k:"free",l:"Freelance"}]);
+  chipbar(document.getElementById('fTrack'),'track',
+    [{k:"all",l:"All tracks"},...Object.keys(TRACKS).map(k=>({k,l:TRACKS[k]}))]);
+
+  const g=document.getElementById('grid'), gr=document.getElementById('gridRoll');
+  g.innerHTML=""; gr.innerHTML="";
+  const dated=DATA.filter(match).sort(sortFn), rolls=ROLL.filter(match).sort(sortFn);
+  dated.forEach(d=>g.appendChild(card(d)));
+  rolls.forEach(d=>gr.appendChild(card(d)));
+  document.getElementById('empty').style.display=dated.length?"none":"block";
+  document.getElementById('count').textContent=
+    `${dated.length+rolls.length} of ${ALL.length} shown · ${dated.length} dated · ${rolls.length} rolling`;
+
+  const b=document.getElementById('board'); b.innerHTML="";
+  STATUSES.forEach(s=>{
+    const col=document.createElement('div'); col.className="col";
+    const items=ALL.filter(d=>d.st===s.k&&match(d)).sort(sortFn);
+    col.innerHTML=`<div class="colh" style="color:var(--${s.k})">${s.l}<b>${items.length}</b></div>`;
+    items.forEach(d=>{
+      const m=document.createElement('div'); m.className="mini";
+      m.innerHTML=`<h4>${esc(d.t)}</h4><div class="o">${esc(d.o)}</div>
+        <div class="mrow"><a href="${d.url}" target="_blank" rel="noopener noreferrer">Apply</a>
+        <select aria-label="Status">${STATUSES.map(x=>`<option value="${x.k}"${d.st===x.k?" selected":""}>${x.l}</option>`).join("")}</select></div>`;
+      m.querySelector('select').onchange=e=>{d.st=e.target.value;persist();render()};
+      col.appendChild(m);
+    });
+    b.appendChild(col);
+  });
+
+  const c={};STATUSES.forEach(s=>c[s.k]=ALL.filter(d=>d.st===s.k).length);
+  const pct=Math.round((ALL.length-c.todo)/ALL.length*100);
+  document.getElementById('pct').textContent=pct+"%";
+  document.getElementById('arc').style.strokeDashoffset=232.5*(1-pct/100);
+  document.getElementById('rstats').innerHTML=
+    [["Applied","applied"],["Interviewing","interview"],["Offers","offer"],["Shortlisted","saved"]]
+    .map(([l,k])=>`<div class="rs"><span>${l}</span><b style="color:var(--${k})">${c[k]}</b></div>`).join("")
+    + `<div class="saved-tag"><span class="dot"></span>${store.ok?"Saved automatically in this browser":"Storage unavailable — this session only"}</div>`;
+}
+
+document.getElementById('q').oninput=e=>{F.q=e.target.value;render()};
+document.getElementById('sort').onchange=e=>{F.sort=e.target.value;render()};
+document.getElementById('reset').onclick=()=>{F.lang="all";F.mode="all";F.track="all";F.q="";
+  document.getElementById('q').value="";render()};
+document.getElementById('wipe').onclick=()=>{
+  if(!confirm("Reset every status and note back to 'Not started'? This can't be undone.")) return;
+  ALL.forEach(d=>{d.st="todo";d.note=""}); store.clear(); render();
+};
+const vL=document.getElementById('vList'),vB=document.getElementById('vBoard'),
+      lv=document.getElementById('listView'),bv=document.getElementById('boardView');
+vL.onclick=()=>{vL.classList.add('on');vB.classList.remove('on');lv.style.display="";bv.style.display="none"};
+vB.onclick=()=>{vB.classList.add('on');vL.classList.remove('on');lv.style.display="none";bv.style.display=""};
+
+render();
 </script>
 </body>
 </html>
